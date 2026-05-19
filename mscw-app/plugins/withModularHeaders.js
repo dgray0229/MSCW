@@ -19,7 +19,9 @@ module.exports = function withModularHeaders(config) {
       "pod 'FirebaseCoreInternal', :modular_headers => true",
       "pod 'FirebaseCore', :modular_headers => true",
       "pod 'FirebaseAuth', :modular_headers => true",
-      "pod 'FirebaseCoreExtension', :modular_headers => true"
+      "pod 'FirebaseCoreExtension', :modular_headers => true",
+      "pod 'FirebaseFirestoreInternal', :modular_headers => true",
+      "pod 'FirebaseFirestore', :modular_headers => true"
     ];
 
     // Filter out pods that are already explicitly mentioned in the Podfile to avoid duplicates
