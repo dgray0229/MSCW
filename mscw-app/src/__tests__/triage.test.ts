@@ -11,6 +11,9 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
       tasks: [],
       settings: {
         dailyCapacity: 8,
+        zenDuration: 25,
+        hapticsEnabled: true,
+        dailyNotificationsEnabled: false,
         zenModeNotifications: true,
         darkMode: false,
         autoArchiveWontTasks: true,
@@ -81,6 +84,9 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
     useAppStore.setState({
       settings: {
         dailyCapacity: 8,
+        zenDuration: 25,
+        hapticsEnabled: true,
+        dailyNotificationsEnabled: false,
         zenModeNotifications: true,
         darkMode: false,
         autoArchiveWontTasks: false,

@@ -2,13 +2,33 @@ import React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { useAppStore } from '../store';
 import { SafeScreen } from '../components/SafeScreen';
-import { TrendingUp, Award, Target, Info } from 'lucide-react-native';
+import { TrendingUp, Award, Target, Info, Sparkles } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+import { generateDailyCoachRetrospective } from '../lib/aiPlanner';
 
 export default function AnalyticsPage() {
   const tasks = useAppStore(state => state.tasks);
   const settings = useAppStore(state => state.settings);
   const updateSettings = useAppStore(state => state.updateSettings);
+  const [isLoadingCoach, setIsLoadingCoach] = React.useState(false);
+
+  const consultCoach = async () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setIsLoadingCoach(true);
+    try {
+      const response = await generateDailyCoachRetrospective(tasks, settings);
+      updateSettings({
+        latestAiCoachMessage: response,
+        lastCoachGeneratedDate: new Date().toLocaleDateString(),
+      });
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch (e) {
+      console.error(e);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    } finally {
+      setIsLoadingCoach(false);
+    }
+  };
 
   // Compute Must-Have Metrics
   const mustHaves = tasks.filter(t => t.priority === 'must');
@@ -40,6 +60,61 @@ export default function AnalyticsPage() {
         <View className="flex-row items-center gap-3 mb-8 mt-4">
           <TrendingUp size={32} color="#b61722" />
           <Text className="text-4xl font-black text-on-surface tracking-tight">Analytics</Text>
+        </View>
+
+        {/* AI Daily Coach Section */}
+        <View className="bg-surface-container-high border border-outline-variant/30 p-6 rounded-3xl shadow-sm mb-6 relative overflow-hidden">
+          <View className="flex-row items-center justify-between mb-4">
+            <View className="flex-row items-center gap-2.5">
+              <View className="p-2 bg-primary/10 rounded-xl">
+                <Sparkles size={20} color="#b61722" />
+              </View>
+              <View>
+                <Text className="text-on-surface font-black text-xl tracking-tight">Daily Coach</Text>
+                <Text className="text-[10px] font-black uppercase tracking-widest text-primary">Chief of Staff</Text>
+              </View>
+            </View>
+            
+            {settings.latestAiCoachMessage && !isLoadingCoach ? (
+              <Pressable 
+                onPress={consultCoach} 
+                className="px-3 py-1.5 bg-surface-variant/40 rounded-full active:opacity-70"
+              >
+                <Text className="text-[10px] font-black uppercase tracking-wider text-primary">Refresh</Text>
+              </Pressable>
+            ) : null}
+          </View>
+
+          {isLoadingCoach ? (
+            <View className="py-6 items-center justify-center gap-3">
+              <Text className="text-xs text-on-surface-variant font-bold uppercase tracking-widest animate-pulse">Consulting advisor...</Text>
+            </View>
+          ) : settings.latestAiCoachMessage ? (
+            <View className="bg-surface-container-lowest border border-outline-variant/20 p-4 rounded-2xl mb-2">
+              <Text className="text-on-surface text-sm leading-relaxed font-medium">
+                {settings.latestAiCoachMessage}
+              </Text>
+              {settings.lastCoachGeneratedDate ? (
+                <Text className="text-[9px] text-on-surface-variant/60 font-black uppercase tracking-wider mt-3 text-right">
+                  Retrospective • {settings.lastCoachGeneratedDate}
+                </Text>
+              ) : null}
+            </View>
+          ) : (
+            <View className="py-4 items-center justify-center gap-4">
+              <Text className="text-on-surface-variant text-sm text-center font-medium leading-relaxed px-4">
+                Let's review your focus, streaks, and MoSCoW prioritization metrics to build strong cognitive habits.
+              </Text>
+              <Pressable 
+                onPress={consultCoach}
+                className="bg-primary px-6 py-3.5 rounded-2xl shadow-sm w-full items-center justify-center active:opacity-90"
+              >
+                <Text className="text-on-primary font-black uppercase tracking-wider text-xs">
+                  Generate Daily Review
+                </Text>
+              </Pressable>
+            </View>
+          )}
         </View>
 
         {/* Completion Rate Widget */}

@@ -12,6 +12,7 @@ interface AppState {
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
   updateSettings: (updates: Partial<AppSettings>) => void;
+  setUser: (user: AppSettings['user']) => void;
   setHasHydrated: (state: boolean) => void;
   setIsSyncing: (state: boolean) => void;
 }
@@ -63,10 +64,15 @@ export const useAppStore = create<AppState>()(
         hapticsEnabled: true,
         dailyNotificationsEnabled: false,
         biometricsEnabled: false,
-        onboardingCompleted: false,
-        streakCount: 0,
-        lastActiveDate: new Date().toISOString(),
         user: null,
+        zenModeNotifications: true,
+        darkMode: false,
+        autoArchiveWontTasks: true,
+        hasSeenOnboarding: false,
+        currentStreakDays: 0,
+        longestStreakDays: 0,
+        latestAiCoachMessage: null,
+        lastCoachGeneratedDate: null,
       },
       addTask: (task) => set((state) => ({
         tasks: [
@@ -75,12 +81,14 @@ export const useAppStore = create<AppState>()(
             id: Math.random().toString(36).substr(2, 9),
             title: task.title || '',
             description: task.description,
-            points: task.points || null,
+            points: task.points !== undefined ? task.points : null,
             priority: task.priority || 'unsorted',
             status: task.status || 'backlog',
             completed: false,
             createdAt: new Date().toISOString(),
             type: task.type,
+            subtasks: task.subtasks || [],
+            phase: task.phase,
           }
         ]
       })),
@@ -92,6 +100,9 @@ export const useAppStore = create<AppState>()(
       })),
       updateSettings: (updates) => set((state) => ({
         settings: { ...state.settings, ...updates }
+      })),
+      setUser: (user) => set((state) => ({
+        settings: { ...state.settings, user }
       })),
       setHasHydrated: (state) => set({ _hasHydrated: state }),
       setIsSyncing: (state) => set({ isSyncing: state }),

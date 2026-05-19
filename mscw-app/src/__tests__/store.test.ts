@@ -13,6 +13,9 @@ describe('MSCW Zustand Store Tests', () => {
       tasks: [],
       settings: {
         dailyCapacity: 8,
+        zenDuration: 25,
+        hapticsEnabled: true,
+        dailyNotificationsEnabled: false,
         zenModeNotifications: true,
         darkMode: false,
         autoArchiveWontTasks: true,

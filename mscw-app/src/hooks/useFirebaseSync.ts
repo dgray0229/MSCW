@@ -52,7 +52,7 @@ export function useFirebaseSync() {
       const fetchCloudData = async () => {
         try {
           const doc = await db.collection('users').doc(user.uid).get();
-          if (doc.exists) {
+          if (typeof doc.exists === 'function' ? (doc.exists as Function)() : doc.exists) {
             const data = doc.data();
             // In a production environment, you would want to implement 
             // timestamp-based conflict resolution here.

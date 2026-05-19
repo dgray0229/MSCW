@@ -15,10 +15,15 @@ import {
   Sparkle,
   AlertTriangle,
   RefreshCw,
-  Cloud
+  Cloud,
+  Sparkles
 } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import RevenueCatUI from 'react-native-purchases-ui';
+import * as Haptics from 'expo-haptics';
+import { AITriageDrawer } from '../components/AITriageDrawer';
+import { getCapacityGuardianRecommendation } from '../lib/aiPlanner';
+import { OverflowConciergeDrawer } from '../components/OverflowConciergeDrawer';
 
 const COLUMNS: { key: Priority; label: string; icon: any; color: string; tint: string }[] = [
   { key: 'must', label: 'Must', icon: Flame, color: 'text-primary', tint: 'bg-primary/10' },
@@ -36,6 +41,8 @@ export default function BoardPage() {
   
   const [expandedTask, setExpandedTask] = useState<string | null>(null);
   const [newSubtaskTitle, setNewSubtaskTitle] = useState('');
+  const [aiDrawerVisible, setAiDrawerVisible] = useState(false);
+  const [overflowDrawerVisible, setOverflowDrawerVisible] = useState(false);
 
   const handleZenMode = async (taskId: string) => {
     try {
@@ -70,6 +77,7 @@ export default function BoardPage() {
   const totalPoints = boardTasks.reduce((sum, t) => sum + (t.points || 0), 0);
   const completionPercent = totalPoints > 0 ? (completedPoints / totalPoints) * 100 : 0; 
   const isOverCapacity = totalPoints > settings.dailyCapacity;
+  const guardian = getCapacityGuardianRecommendation(tasks, settings.dailyCapacity);
 
   const getIcon = (type?: string) => {
     if (type === 'Tech Debt') return Database;
@@ -80,12 +88,28 @@ export default function BoardPage() {
   };
 
   return (
-    <SafeScreen className="flex-1 bg-background">
+    <View className="flex-1 bg-background relative">
+      <SafeScreen className="flex-1" scrollable={true}>
       {/* Header */}
       <View className="flex-row justify-between items-start mb-6 flex-wrap gap-4">
         <View>
           <Text className="text-4xl font-black text-on-surface tracking-tight">Daily Board</Text>
-          <Text className="text-on-surface-variant mt-1 font-medium italic">Sprint 42 • 3 Days Remaining</Text>
+          <View className="flex-row items-center gap-3 mt-1.5 flex-wrap">
+            <Text className="text-on-surface-variant font-medium italic">Sprint 42 • 3 Days Remaining</Text>
+            <View className="w-1 h-1 rounded-full bg-on-surface-variant/40" />
+            <Pressable 
+              onPress={() => {
+                if (settings.hapticsEnabled) {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }
+                setOverflowDrawerVisible(true);
+              }}
+              className="flex-row items-center gap-1.5 active:opacity-75"
+            >
+              <Sparkles size={12} color="#b61722" />
+              <Text className="text-xs font-black uppercase tracking-wider text-primary">Overflow Concierge</Text>
+            </Pressable>
+          </View>
         </View>
         <View className="flex-row items-center gap-2">
           {settings.user && (
@@ -113,23 +137,24 @@ export default function BoardPage() {
         </View>
       </View>
 
-      {/* Burnout Capacity Status Banner */}
-      <View className={`mb-6 p-4 rounded-3xl border flex-row items-center gap-4 ${isOverCapacity ? 'bg-primary/5 border-primary/20' : 'bg-tertiary/5 border-tertiary/20'}`}>
-        <View className={`p-3 rounded-2xl ${isOverCapacity ? 'bg-primary/10' : 'bg-tertiary/10'}`}>
-          <AlertTriangle color={isOverCapacity ? '#b61722' : '#00685f'} size={24} />
+      {/* Burnout Capacity Status Banner (AI Capacity Guardian) */}
+      <View className={`mb-6 p-4 rounded-3xl border flex-row items-center gap-4 ${guardian.level === 'danger' ? 'bg-primary/5 border-primary/20' : guardian.level === 'warning' ? 'bg-secondary/5 border-secondary/20' : 'bg-tertiary/5 border-tertiary/20'}`}>
+        <View className={`p-3 rounded-2xl ${guardian.level === 'danger' ? 'bg-primary/10' : guardian.level === 'warning' ? 'bg-secondary/10' : 'bg-tertiary/10'}`}>
+          <AlertTriangle color={guardian.level === 'danger' ? '#b61722' : guardian.level === 'warning' ? '#855300' : '#00685f'} size={24} />
         </View>
         <View className="flex-1">
-          <Text className="font-bold text-on-surface text-base">
-            {isOverCapacity ? 'Burnout Risk Detected' : 'Healthy Target Zone'}
-          </Text>
-          <Text className="text-xs text-on-surface-variant mt-0.5">
-            {isOverCapacity 
-              ? `You've scheduled ${totalPoints} points, which exceeds your limits (${settings.dailyCapacity} pts). Move some to Backlog.`
-              : `You are at ${totalPoints} of your ${settings.dailyCapacity} point maximum limit. Stay focused and avoid additions.`}
+          <View className="flex-row items-center gap-1.5">
+            <Sparkles size={12} color={guardian.level === 'danger' ? '#b61722' : guardian.level === 'warning' ? '#855300' : '#00685f'} />
+            <Text className="font-bold text-on-surface text-base">
+              {guardian.title}
+            </Text>
+          </View>
+          <Text className="text-xs text-on-surface-variant mt-1 leading-relaxed">
+            {guardian.message}
           </Text>
         </View>
-        <View className={`px-3 py-1 rounded-full ${isOverCapacity ? 'bg-primary/20' : 'bg-tertiary/20'}`}>
-          <Text className={`font-black text-xs ${isOverCapacity ? 'text-primary' : 'text-tertiary'}`}>
+        <View className={`px-3 py-1 rounded-full ${guardian.level === 'danger' ? 'bg-primary/20' : guardian.level === 'warning' ? 'bg-secondary/20' : 'bg-tertiary/20'}`}>
+          <Text className={`font-black text-xs ${guardian.level === 'danger' ? 'text-primary' : guardian.level === 'warning' ? 'text-secondary' : 'text-tertiary'}`}>
             {totalPoints}/{settings.dailyCapacity} pts
           </Text>
         </View>
@@ -274,6 +299,40 @@ export default function BoardPage() {
         })}
       </View>
     </SafeScreen>
-  );
+
+    {/* Glowing AI floating button */}
+    <Pressable
+      onPress={() => {
+        if (settings.hapticsEnabled) {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        }
+        setAiDrawerVisible(true);
+      }}
+      className="absolute bottom-6 right-6 bg-primary px-5 py-3 rounded-full flex-row items-center gap-2 shadow-xl border border-primary-container active:scale-95"
+      style={{
+        shadowColor: '#b61722',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.35,
+        shadowRadius: 10,
+        elevation: 8,
+      }}
+    >
+      <Sparkles size={16} color="white" />
+      <Text className="text-on-primary font-black text-xs uppercase tracking-wider">AI Triage</Text>
+    </Pressable>
+
+    {/* AI Triage Sheet */}
+    <AITriageDrawer 
+      visible={aiDrawerVisible} 
+      onClose={() => setAiDrawerVisible(false)} 
+    />
+
+    {/* Overflow Concierge Sheet */}
+    <OverflowConciergeDrawer
+      visible={overflowDrawerVisible}
+      onClose={() => setOverflowDrawerVisible(false)}
+    />
+  </View>
+);
 }
 

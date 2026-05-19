@@ -3,10 +3,11 @@ import { View, Text, Pressable, Animated } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAppStore } from '../store';
 import { SafeScreen } from '../components/SafeScreen';
-import { ArrowLeft, Check, Play, Pause, Volume2, RotateCcw, AlertOctagon, ChevronDown, Music } from 'lucide-react-native';
+import { ArrowLeft, Check, Play, Pause, Volume2, RotateCcw, AlertOctagon, ChevronDown, Music, Sparkles } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import Svg, { Circle } from 'react-native-svg';
 import { Audio } from 'expo-av';
+import { getRecommendedSoundscape } from '../lib/aiPlanner';
 
 const FOCUS_TIME_SECONDS = 25 * 60; // 25 Minutes Pomodoro
 
@@ -35,6 +36,31 @@ export default function ZenModePage() {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [selectedAudio, setSelectedAudio] = useState(SOUNDSCAPES[0]);
   const [isAudioDrawerOpen, setIsAudioDrawerOpen] = useState(false);
+  const [aiConductionReason, setAiConductionReason] = useState('');
+
+  // Auto-apply recommended soundscape when task loads or changes
+  useEffect(() => {
+    if (focusTask) {
+      const recommendation = getRecommendedSoundscape(focusTask.type, focusTask.points);
+      const match = SOUNDSCAPES.find(s => s.id === recommendation.trackId) || SOUNDSCAPES[0];
+      setSelectedAudio(match);
+      setAiConductionReason(recommendation.reason);
+      
+      // If audio is already playing, switch tracks dynamically
+      if (isPlayingAudio && sound) {
+        (async () => {
+          await sound.unloadAsync();
+          setSound(null);
+          const { sound: newSound } = await Audio.Sound.createAsync(
+            { uri: match.uri },
+            { isLooping: true, volume: 0.5 }
+          );
+          setSound(newSound);
+          await newSound.playAsync();
+        })();
+      }
+    }
+  }, [focusTask?.id]);
 
   // Timer Effect
   useEffect(() => {
@@ -237,6 +263,19 @@ export default function ZenModePage() {
             </View>
           </View>
         </View>
+
+        {/* AI Focus Soundscape Conductor Badge */}
+        {aiConductionReason ? (
+          <View className="bg-surface-container-high/60 border border-outline-variant/30 px-5 py-3.5 rounded-2xl flex-row items-center gap-3 mb-8 max-w-[340px] shadow-sm">
+            <View className="p-2 bg-primary/10 rounded-full">
+              <Sparkles size={16} color="#b61722" />
+            </View>
+            <View className="flex-1">
+              <Text className="text-[10px] font-black uppercase tracking-widest text-primary mb-0.5">Soundscape Conductor</Text>
+              <Text className="text-xs text-on-surface-variant leading-normal font-medium">{aiConductionReason}</Text>
+            </View>
+          </View>
+        ) : null}
 
         {/* Action Controls */}
         <View className="flex-row items-center justify-center gap-4 w-full">

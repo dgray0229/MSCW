@@ -33,4 +33,6 @@ export interface AppSettings {
   hasSeenOnboarding: boolean;
   currentStreakDays: number;
   longestStreakDays: number;
+  latestAiCoachMessage?: string | null;
+  lastCoachGeneratedDate?: string | null;
 }
