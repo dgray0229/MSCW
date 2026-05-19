@@ -1,0 +1,5 @@
+itemap Overview:
+Logical Flow: The diagram is organized into four key phases: Onboarding, Planning, Execution, and Review & Utility.
+Interactive Connections: I've mapped out the triggers that move a user through the app, such as the transition from Triage (Planning) to the Board (Execution), and from the Board into Zen Mode.
+Visual Hierarchy: The sitemap uses the established MoSCoW brand colors to highlight core modules, making it easy to see how the "Must-Have" philosophy anchors the entire experience.
+Documentation: I've also saved a detailed textual version of the sitemap as a document (MoSCoW Agile Sitemap (Textual)) for your technical reference.

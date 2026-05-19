@@ -1,0 +1,6 @@
+PRD Highlights:
+Core Philosophy: Formalizes the "Constraint-Driven Productivity" model, centering on the 8-point daily limit and Fibonacci estimation.
+Functional Breakdown: Details the requirements for the four key application phases: Onboarding, Backlog, Triage, and execution (Board/Zen Mode).
+Technical Specs: Outlines the design system requirements, including the #ef4444 "MoSCoW Red" branding and the responsive sidebar navigation architecture.
+Success Metrics: Defines how we'll measure the app's impact, focusing on "Must-Have" completion rates and Zen Mode utilization.
+The document has been saved to your project as MoSCoW Agile PRD (MoSCoW Agile PRD).
