@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useAppStore } from '../store';
 import { SafeScreen } from '../components/SafeScreen';
+import Animated, { FadeInRight, FadeOutLeft, LinearTransition } from 'react-native-reanimated';
 import { Flame, CheckCircle2, PlusCircle, CloudSnow, Sparkles } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
@@ -57,7 +58,13 @@ export default function TriagePage() {
         </Text>
         
         {/* Triage Deck Card */}
-        <View className="w-full aspect-[4/3] bg-surface-container-lowest rounded-3xl border border-outline-variant shadow-sm p-6 justify-center items-center mb-8">
+        <Animated.View 
+          key={activeTask.id}
+          entering={FadeInRight.springify().damping(15)}
+          exiting={FadeOutLeft.duration(200)}
+          layout={LinearTransition}
+          className="w-full aspect-[4/3] bg-surface-container-lowest rounded-3xl border border-outline-variant shadow-sm p-6 justify-center items-center mb-8"
+        >
           <View className="bg-surface-container px-3 py-1 rounded-full mb-3 border border-outline-variant/30">
             <Text className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest">
               {activeTask.type || 'Feature'} • {activeTask.points || '?'} pts
@@ -69,7 +76,7 @@ export default function TriagePage() {
           <Text className="text-xs text-on-surface-variant text-center px-4 leading-normal" numberOfLines={3}>
             {activeTask.description || "No description provided. Sorting this task decides its priority for your upcoming day's limit."}
           </Text>
-        </View>
+        </Animated.View>
 
         {/* Moscow Sorting Grid */}
         <View className="flex-row flex-wrap justify-between gap-4 w-full">

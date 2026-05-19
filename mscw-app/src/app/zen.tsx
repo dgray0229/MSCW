@@ -3,12 +3,18 @@ import { View, Text, Pressable, Animated } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAppStore } from '../store';
 import { SafeScreen } from '../components/SafeScreen';
-import { ArrowLeft, Check, ShieldAlert, Play, Pause, Volume2, RotateCcw, AlertOctagon } from 'lucide-react-native';
+import { ArrowLeft, Check, Play, Pause, Volume2, RotateCcw, AlertOctagon, ChevronDown, Music } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import Svg, { Circle } from 'react-native-svg';
 import { Audio } from 'expo-av';
 
 const FOCUS_TIME_SECONDS = 25 * 60; // 25 Minutes Pomodoro
+
+const SOUNDSCAPES = [
+  { id: 'rain', name: 'Heavy Rain', uri: 'https://cdn.freesound.org/previews/515/515286_11306359-lq.mp3' },
+  { id: 'white_noise', name: 'Deep White Noise', uri: 'https://cdn.freesound.org/previews/316/316920_4230890-lq.mp3' },
+  { id: 'cafe', name: 'Coffee Shop', uri: 'https://cdn.freesound.org/previews/174/174753_1583271-lq.mp3' },
+];
 
 export default function ZenModePage() {
   const { id } = useLocalSearchParams();
@@ -27,6 +33,8 @@ export default function ZenModePage() {
   // Audio State
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [selectedAudio, setSelectedAudio] = useState(SOUNDSCAPES[0]);
+  const [isAudioDrawerOpen, setIsAudioDrawerOpen] = useState(false);
 
   // Timer Effect
   useEffect(() => {
@@ -50,17 +58,13 @@ export default function ZenModePage() {
   const toggleAudio = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
-    // External hook extension point:
-    // If user opts to use Spotify SDK later, intercept here.
-    
     if (isPlayingAudio && sound) {
       await sound.pauseAsync();
       setIsPlayingAudio(false);
     } else {
       if (!sound) {
-        // Load mock ambient loop (using a placeholder remote URI)
         const { sound: newSound } = await Audio.Sound.createAsync(
-          { uri: 'https://cdn.freesound.org/previews/515/515286_11306359-lq.mp3' }, // Free ambient wind/rain noise
+          { uri: selectedAudio.uri },
           { isLooping: true, volume: 0.5 }
         );
         setSound(newSound);
@@ -69,6 +73,24 @@ export default function ZenModePage() {
         await sound.playAsync();
       }
       setIsPlayingAudio(true);
+    }
+  };
+
+  const changeAudioTrack = async (track: typeof SOUNDSCAPES[0]) => {
+    Haptics.selectionAsync();
+    setSelectedAudio(track);
+    setIsAudioDrawerOpen(false);
+    if (sound) {
+      await sound.unloadAsync();
+      setSound(null);
+    }
+    if (isPlayingAudio) {
+      const { sound: newSound } = await Audio.Sound.createAsync(
+        { uri: track.uri },
+        { isLooping: true, volume: 0.5 }
+      );
+      setSound(newSound);
+      await newSound.playAsync();
     }
   };
 
@@ -130,15 +152,53 @@ export default function ZenModePage() {
         
         {/* Audio Controller */}
         <Pressable 
-          onPress={toggleAudio}
+          onPress={() => setIsAudioDrawerOpen(true)}
           className={`px-4 py-2 rounded-full flex-row items-center gap-2 border ${isPlayingAudio ? 'bg-primary-container border-primary/30' : 'bg-surface-container-high border-outline-variant/30'}`}
         >
           <Volume2 size={14} color={isPlayingAudio ? '#b61722' : '#73777f'} />
           <Text className={`text-[10px] font-black uppercase tracking-widest ${isPlayingAudio ? 'text-primary' : 'text-on-surface-variant'}`}>
-            {isPlayingAudio ? 'Ambient On' : 'Ambient Off'}
+            {selectedAudio.name}
           </Text>
+          <ChevronDown size={14} color={isPlayingAudio ? '#b61722' : '#73777f'} />
         </Pressable>
       </View>
+
+      {/* Audio Drawer Modal */}
+      {isAudioDrawerOpen && (
+        <View className="absolute z-50 bottom-0 left-0 right-0 bg-surface-container-highest rounded-t-3xl border-t border-outline-variant/30 pt-6 pb-12 px-6 shadow-2xl">
+          <View className="flex-row justify-between items-center mb-6">
+            <Text className="text-xl font-black text-on-surface">Ambient Soundscapes</Text>
+            <Pressable onPress={() => setIsAudioDrawerOpen(false)} className="p-2 bg-surface-variant/30 rounded-full">
+              <ChevronDown size={20} color="#191c20" />
+            </Pressable>
+          </View>
+          
+          <View className="gap-3 mb-6">
+            {SOUNDSCAPES.map(track => (
+              <Pressable
+                key={track.id}
+                onPress={() => changeAudioTrack(track)}
+                className={`flex-row items-center justify-between p-4 rounded-2xl border ${selectedAudio.id === track.id ? 'bg-primary/10 border-primary/30' : 'bg-surface border-outline-variant/30'}`}
+              >
+                <View className="flex-row items-center gap-3">
+                  <Music size={20} color={selectedAudio.id === track.id ? '#b61722' : '#73777f'} />
+                  <Text className={`font-bold text-base ${selectedAudio.id === track.id ? 'text-primary' : 'text-on-surface'}`}>{track.name}</Text>
+                </View>
+                {selectedAudio.id === track.id && <Check size={20} color="#b61722" />}
+              </Pressable>
+            ))}
+          </View>
+          
+          <Pressable 
+            onPress={toggleAudio} 
+            className={`w-full py-4 rounded-full items-center justify-center border shadow-sm ${isPlayingAudio ? 'bg-surface border-primary' : 'bg-primary border-primary'}`}
+          >
+            <Text className={`font-black uppercase tracking-widest text-sm ${isPlayingAudio ? 'text-primary' : 'text-on-primary'}`}>
+              {isPlayingAudio ? 'Pause Audio' : 'Play Audio'}
+            </Text>
+          </Pressable>
+        </View>
+      )}
 
       <View className="flex-1 items-center justify-center py-2 px-6">
         

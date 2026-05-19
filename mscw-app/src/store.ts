@@ -5,6 +5,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface AppState {
   _hasHydrated: boolean;
+  isSyncing: boolean;
   tasks: Task[];
   settings: AppSettings;
   addTask: (task: Partial<Task>) => void;
@@ -12,6 +13,7 @@ interface AppState {
   deleteTask: (id: string) => void;
   updateSettings: (updates: Partial<AppSettings>) => void;
   setHasHydrated: (state: boolean) => void;
+  setIsSyncing: (state: boolean) => void;
 }
 
 const mockTasks: Task[] = [
@@ -53,15 +55,18 @@ export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
       _hasHydrated: false,
+      isSyncing: false,
       tasks: mockTasks,
       settings: {
         dailyCapacity: 8,
-        zenModeNotifications: true,
-        darkMode: false,
-        autoArchiveWontTasks: true,
-        hasSeenOnboarding: false,
-        currentStreakDays: 0,
-        longestStreakDays: 0,
+        zenDuration: 25,
+        hapticsEnabled: true,
+        dailyNotificationsEnabled: false,
+        biometricsEnabled: false,
+        onboardingCompleted: false,
+        streakCount: 0,
+        lastActiveDate: new Date().toISOString(),
+        user: null,
       },
       addTask: (task) => set((state) => ({
         tasks: [
@@ -89,6 +94,7 @@ export const useAppStore = create<AppState>()(
         settings: { ...state.settings, ...updates }
       })),
       setHasHydrated: (state) => set({ _hasHydrated: state }),
+      setIsSyncing: (state) => set({ isSyncing: state }),
     }),
     {
       name: 'mscw-storage',

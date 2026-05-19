@@ -10,11 +10,16 @@
     "ios": {
       "icon": "./assets/expo.icon",
       "bundleIdentifier": "com.devingray.mscw",
+      "entitlements": {
+        "com.apple.developer.applesignin": ["Default"]
+      },
+      "googleServicesFile": "./GoogleService-Info.plist",
       "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
       "package": "com.devingray.mscw",
+      "googleServicesFile": "./google-services.json",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -30,6 +35,9 @@
     },
     "plugins": [
       "expo-router",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "expo-apple-authentication",
       [
         "expo-splash-screen",
         {

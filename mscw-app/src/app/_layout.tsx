@@ -4,6 +4,9 @@ import React from 'react';
 import { useColorScheme, View, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Purchases from 'react-native-purchases';
+import { firebaseAuth } from '../lib/firebase';
+import { useFirebaseSync } from '../hooks/useFirebaseSync';
+import { PrivacyScreen } from '../components/PrivacyScreen';
 import '../../global.css';
 
 import { List, GitPullRequest, LayoutDashboard, Settings, TrendingUp } from 'lucide-react-native';
@@ -25,7 +28,27 @@ Notifications.setNotificationHandler({
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const hasHydrated = useAppStore(state => state._hasHydrated);
+  const setUser = useAppStore(state => state.setUser);
   const hasSeenOnboarding = useAppStore(state => state.settings.hasSeenOnboarding);
+
+  // Initialize the background Sync Engine
+  useFirebaseSync();
+
+  // Synchronize Firebase Auth state natively with Zustand Memory
+  useEffect(() => {
+    const subscriber = firebaseAuth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName,
+        });
+      } else {
+        setUser(null);
+      }
+    });
+    return subscriber;
+  }, []);
 
   useEffect(() => {
     async function configureNotifications() {
@@ -87,14 +110,17 @@ export default function RootLayout() {
   if (!hasSeenOnboarding) {
     return (
       <SafeAreaProvider>
-        <OnboardingPage />
+        <PrivacyScreen>
+          <OnboardingPage />
+        </PrivacyScreen>
       </SafeAreaProvider>
     );
   }
   
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <PrivacyScreen>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Tabs screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: '#b61722',
@@ -154,8 +180,9 @@ export default function RootLayout() {
               tabBarIcon: ({ color }) => <Settings color={color} />
             }} 
           />
-        </Tabs>
-      </ThemeProvider>
+          </Tabs>
+        </ThemeProvider>
+      </PrivacyScreen>
     </SafeAreaProvider>
   );
 }
