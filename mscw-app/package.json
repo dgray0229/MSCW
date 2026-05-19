@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "test": "jest",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "eas-build-pre-install": "if [ -n \"$GOOGLE_SERVICE_INFO_PLIST\" ]; then cp $GOOGLE_SERVICE_INFO_PLIST ./GoogleService-Info.plist; fi && if [ -n \"$GOOGLE_SERVICES_JSON\" ]; then cp $GOOGLE_SERVICES_JSON ./google-services.json; fi"
   },
   "jest": {
     "preset": "jest-expo"
