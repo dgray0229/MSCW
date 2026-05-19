@@ -90,7 +90,7 @@ export default function SettingsPage() {
       </View>
 
       <Pressable 
-        onPress={() => router.push('/archive')}
+        onPress={() => router.push('/archive' as any)}
         className="bg-primary-container border border-primary/20 rounded-2xl p-4 flex-row items-center justify-center gap-2 active:opacity-80"
       >
         <Archive size={20} color="#b61722" />

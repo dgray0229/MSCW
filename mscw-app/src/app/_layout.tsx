@@ -1,8 +1,9 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { useColorScheme, View } from 'react-native';
+import { useColorScheme, View, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Purchases from 'react-native-purchases';
 import '../../global.css';
 
 import { List, GitPullRequest, LayoutDashboard, Settings, TrendingUp } from 'lucide-react-native';
@@ -16,6 +17,8 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
   }),
 });
 
@@ -46,7 +49,7 @@ export default function RootLayout() {
           hour: 8,
           minute: 0,
           repeats: true,
-        },
+        } as any,
       });
 
       await Notifications.scheduleNotificationAsync({
@@ -59,12 +62,21 @@ export default function RootLayout() {
           hour: 20,
           minute: 0,
           repeats: true,
-        },
+        } as any,
       });
+    }
+
+    async function configureRevenueCat() {
+      if (Platform.OS === 'ios' && process.env.EXPO_PUBLIC_RC_IOS_KEY) {
+        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_RC_IOS_KEY });
+      } else if (Platform.OS === 'android' && process.env.EXPO_PUBLIC_RC_ANDROID_KEY) {
+        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_RC_ANDROID_KEY });
+      }
     }
 
     if (hasHydrated) {
       configureNotifications();
+      configureRevenueCat();
     }
   }, [hasHydrated]);
 
