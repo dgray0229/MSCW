@@ -1,17 +1,150 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Tabs } from 'expo-router';
 import React from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../../global.css';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { List, GitPullRequest, LayoutDashboard, Settings, TrendingUp } from 'lucide-react-native';
+import { useAppStore } from '../store';
+import OnboardingPage from './onboarding';
+import * as Notifications from 'expo-notifications';
+import { useEffect } from 'react';
 
-export default function TabLayout() {
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+
+export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const hasHydrated = useAppStore(state => state._hasHydrated);
+  const hasSeenOnboarding = useAppStore(state => state.settings.hasSeenOnboarding);
+
+  useEffect(() => {
+    async function configureNotifications() {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') return;
+
+      await Notifications.cancelAllScheduledNotificationsAsync();
+
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "🌞 Daily Planning",
+          body: "Set your 8-point capacity limit and pick your Must-Haves.",
+          sound: true,
+        },
+        trigger: {
+          hour: 8,
+          minute: 0,
+          repeats: true,
+        },
+      });
+
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "🌙 Evening Review",
+          body: "Review today's board and archive completed tasks.",
+          sound: true,
+        },
+        trigger: {
+          hour: 20,
+          minute: 0,
+          repeats: true,
+        },
+      });
+    }
+
+    if (hasHydrated) {
+      configureNotifications();
+    }
+  }, [hasHydrated]);
+
+  if (!hasHydrated) {
+    return <View style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#121c2a' : '#ffffff' }} />;
+  }
+
+  if (!hasSeenOnboarding) {
+    return (
+      <SafeAreaProvider>
+        <OnboardingPage />
+      </SafeAreaProvider>
+    );
+  }
+  
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Tabs screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: '#b61722',
+          tabBarStyle: {
+            backgroundColor: colorScheme === 'dark' ? '#121c2a' : '#ffffff',
+            borderTopColor: colorScheme === 'dark' ? '#27313f' : '#e6e8ea',
+          }
+        }}>
+          <Tabs.Screen 
+            name="index" 
+            options={{
+              title: 'Board',
+              tabBarIcon: ({ color }) => <LayoutDashboard color={color} />
+            }} 
+          />
+          <Tabs.Screen 
+            name="backlog" 
+            options={{
+              title: 'Backlog',
+              tabBarIcon: ({ color }) => <List color={color} />
+            }} 
+          />
+          <Tabs.Screen 
+            name="triage" 
+            options={{
+              title: 'Triage',
+              tabBarIcon: ({ color }) => <GitPullRequest color={color} />
+            }} 
+          />
+          <Tabs.Screen 
+            name="zen" 
+            options={{
+              href: null, // Hides it from the tab bar
+              headerShown: false,
+              tabBarStyle: { display: 'none' }
+            }} 
+          />
+          <Tabs.Screen 
+            name="archive" 
+            options={{
+              href: null, // Hides it from the tab bar
+              headerShown: false,
+              tabBarStyle: { display: 'none' }
+            }} 
+          />
+          <Tabs.Screen 
+            name="analytics" 
+            options={{
+              title: 'Analytics',
+              tabBarIcon: ({ color }) => <TrendingUp color={color} />
+            }} 
+          />
+          <Tabs.Screen 
+            name="explore" 
+            options={{
+              title: 'Settings',
+              tabBarIcon: ({ color }) => <Settings color={color} />
+            }} 
+          />
+        </Tabs>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
+

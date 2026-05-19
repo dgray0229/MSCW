@@ -19,4 +19,7 @@ export interface AppSettings {
   zenModeNotifications: boolean;
   darkMode: boolean;
   autoArchiveWontTasks: boolean;
+  hasSeenOnboarding: boolean;
+  currentStreakDays: number;
+  longestStreakDays: number;
 }

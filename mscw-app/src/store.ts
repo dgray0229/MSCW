@@ -4,12 +4,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface AppState {
+  _hasHydrated: boolean;
   tasks: Task[];
   settings: AppSettings;
   addTask: (task: Partial<Task>) => void;
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
   updateSettings: (updates: Partial<AppSettings>) => void;
+  setHasHydrated: (state: boolean) => void;
 }
 
 const mockTasks: Task[] = [
@@ -50,12 +52,16 @@ const mockTasks: Task[] = [
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
+      _hasHydrated: false,
       tasks: mockTasks,
       settings: {
         dailyCapacity: 8,
         zenModeNotifications: true,
         darkMode: false,
         autoArchiveWontTasks: true,
+        hasSeenOnboarding: false,
+        currentStreakDays: 0,
+        longestStreakDays: 0,
       },
       addTask: (task) => set((state) => ({
         tasks: [
@@ -81,11 +87,15 @@ export const useAppStore = create<AppState>()(
       })),
       updateSettings: (updates) => set((state) => ({
         settings: { ...state.settings, ...updates }
-      }))
+      })),
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
     {
       name: 'mscw-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
