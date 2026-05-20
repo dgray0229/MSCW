@@ -6,7 +6,7 @@ import { SafeScreen } from '../components/SafeScreen';
 import { ArrowLeft, Check, Play, Pause, Volume2, RotateCcw, AlertOctagon, ChevronDown, Music, Sparkles } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import Svg, { Circle } from 'react-native-svg';
-import { Audio } from 'expo-av';
+import { useAudioPlayer } from 'expo-audio';
 import { getRecommendedSoundscape } from '../lib/aiPlanner';
 
 const FOCUS_TIME_SECONDS = 25 * 60; // 25 Minutes Pomodoro
@@ -32,11 +32,19 @@ export default function ZenModePage() {
   const [isActive, setIsActive] = useState(false);
   
   // Audio State
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [selectedAudio, setSelectedAudio] = useState(SOUNDSCAPES[0]);
   const [isAudioDrawerOpen, setIsAudioDrawerOpen] = useState(false);
   const [aiConductionReason, setAiConductionReason] = useState('');
+
+  const player = useAudioPlayer(selectedAudio.uri);
+
+  useEffect(() => {
+    if (player) {
+      player.loop = true;
+      player.volume = 0.5;
+    }
+  }, [player, selectedAudio.uri]);
 
   // Auto-apply recommended soundscape when task loads or changes
   useEffect(() => {
@@ -46,18 +54,8 @@ export default function ZenModePage() {
       setSelectedAudio(match);
       setAiConductionReason(recommendation.reason);
       
-      // If audio is already playing, switch tracks dynamically
-      if (isPlayingAudio && sound) {
-        (async () => {
-          await sound.unloadAsync();
-          setSound(null);
-          const { sound: newSound } = await Audio.Sound.createAsync(
-            { uri: match.uri },
-            { isLooping: true, volume: 0.5 }
-          );
-          setSound(newSound);
-          await newSound.playAsync();
-        })();
+      if (isPlayingAudio) {
+        setTimeout(() => player?.play(), 100);
       }
     }
   }, [focusTask?.id]);
@@ -76,47 +74,24 @@ export default function ZenModePage() {
     return () => { if (interval) clearInterval(interval); };
   }, [isActive, timeLeft]);
 
-  // Audio Hook Integration (Hybrid)
-  useEffect(() => {
-    return sound ? () => { sound.unloadAsync(); } : undefined;
-  }, [sound]);
-
-  const toggleAudio = async () => {
+  const toggleAudio = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     
-    if (isPlayingAudio && sound) {
-      await sound.pauseAsync();
+    if (isPlayingAudio) {
+      player?.pause();
       setIsPlayingAudio(false);
     } else {
-      if (!sound) {
-        const { sound: newSound } = await Audio.Sound.createAsync(
-          { uri: selectedAudio.uri },
-          { isLooping: true, volume: 0.5 }
-        );
-        setSound(newSound);
-        await newSound.playAsync();
-      } else {
-        await sound.playAsync();
-      }
+      player?.play();
       setIsPlayingAudio(true);
     }
   };
 
-  const changeAudioTrack = async (track: typeof SOUNDSCAPES[0]) => {
+  const changeAudioTrack = (track: typeof SOUNDSCAPES[0]) => {
     Haptics.selectionAsync();
     setSelectedAudio(track);
     setIsAudioDrawerOpen(false);
-    if (sound) {
-      await sound.unloadAsync();
-      setSound(null);
-    }
     if (isPlayingAudio) {
-      const { sound: newSound } = await Audio.Sound.createAsync(
-        { uri: track.uri },
-        { isLooping: true, volume: 0.5 }
-      );
-      setSound(newSound);
-      await newSound.playAsync();
+      setTimeout(() => player?.play(), 100);
     }
   };
 
