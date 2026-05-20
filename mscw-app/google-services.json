@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "515447198418",
+    "project_id": "mscw-e2cee",
+    "storage_bucket": "mscw-e2cee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515447198418:android:656bcec91c0ca70ca8530b",
+        "android_client_info": {
+          "package_name": "com.devingray.mscw"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDptZNld2ARA5wEBjs8ZratdjjIM0Klu_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
