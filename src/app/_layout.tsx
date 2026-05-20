@@ -1,3 +1,4 @@
+import '../lib/polyfills';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -53,6 +54,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     async function configureNotifications() {
+      if (Platform.OS === 'web') return;
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
       if (existingStatus !== 'granted') {
