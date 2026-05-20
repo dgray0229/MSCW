@@ -1,0 +1,131 @@
+import { create } from 'zustand';
+import { Task, Priority, AppSettings } from './types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persist, createJSONStorage } from 'zustand/middleware';
+
+interface AppState {
+  _hasHydrated: boolean;
+  isSyncing: boolean;
+  tasks: Task[];
+  settings: AppSettings;
+  addTask: (task: Partial<Task>) => void;
+  updateTask: (id: string, updates: Partial<Task>) => void;
+  deleteTask: (id: string) => void;
+  updateSettings: (updates: Partial<AppSettings>) => void;
+  setUser: (user: AppSettings['user']) => void;
+  setHasHydrated: (state: boolean) => void;
+  setIsSyncing: (state: boolean) => void;
+  archiveCompletedTasks: () => void;
+  syncWithCloud: (tasks: Task[], settings: AppSettings) => void;
+}
+
+const mockTasks: Task[] = [
+  {
+    id: '1',
+    title: 'Design the Data Models',
+    description: 'Ensure Zustand store and types are properly defined',
+    points: 3,
+    priority: 'must',
+    status: 'board',
+    completed: true,
+    createdAt: new Date().toISOString(),
+    type: 'Feature'
+  },
+  {
+    id: '2',
+    title: 'Implement Triage View',
+    description: 'Build swipe interface for MoSCoW prioritization',
+    points: 5,
+    priority: 'must',
+    status: 'board',
+    completed: false,
+    createdAt: new Date().toISOString(),
+    type: 'Feature'
+  },
+  {
+    id: '3',
+    title: 'Investigate RevenueCat',
+    points: null,
+    priority: 'unsorted',
+    status: 'backlog',
+    completed: false,
+    createdAt: new Date().toISOString(),
+    type: 'Tech Debt'
+  }
+];
+
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      _hasHydrated: false,
+      isSyncing: false,
+      tasks: mockTasks,
+      settings: {
+        dailyCapacity: 8,
+        zenDuration: 25,
+        hapticsEnabled: true,
+        dailyNotificationsEnabled: false,
+        biometricsEnabled: false,
+        user: null,
+        zenModeNotifications: true,
+        darkMode: false,
+        autoArchiveWontTasks: true,
+        hasSeenOnboarding: false,
+        currentStreakDays: 0,
+        longestStreakDays: 0,
+        latestAiCoachMessage: null,
+        lastCoachGeneratedDate: null,
+      },
+      addTask: (task) => set((state) => ({
+        tasks: [
+          ...state.tasks,
+          {
+            id: Math.random().toString(36).substring(2, 11),
+            title: task.title || '',
+            description: task.description,
+            points: task.points !== undefined ? task.points : null,
+            priority: task.priority || 'unsorted',
+            status: task.status || 'backlog',
+            completed: false,
+            createdAt: new Date().toISOString(),
+            type: task.type,
+            subtasks: task.subtasks || [],
+            phase: task.phase,
+          }
+        ]
+      })),
+      updateTask: (id, updates) => set((state) => ({
+        tasks: state.tasks.map((t) => t.id === id ? { ...t, ...updates } : t)
+      })),
+      deleteTask: (id) => set((state) => ({
+        tasks: state.tasks.filter((t) => t.id !== id)
+      })),
+      updateSettings: (updates) => set((state) => ({
+        settings: { ...state.settings, ...updates }
+      })),
+      setUser: (user) => set((state) => ({
+        settings: { ...state.settings, user }
+      })),
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
+      setIsSyncing: (state) => set({ isSyncing: state }),
+      archiveCompletedTasks: () => set((state) => ({
+        tasks: state.tasks.map((t) =>
+          t.status === 'board' && t.completed
+            ? { ...t, status: 'archive', completedAt: t.completedAt || new Date().toISOString() }
+            : t
+        )
+      })),
+      syncWithCloud: (tasks, settings) => set((state) => ({
+        tasks: tasks || state.tasks,
+        settings: settings ? { ...state.settings, ...settings } : state.settings
+      })),
+    }),
+    {
+      name: 'mscw-storage',
+      storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
+    }
+  )
+);
