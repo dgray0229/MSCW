@@ -1,0 +1,435 @@
+watchman warning:  Recrawled this watch 17 times, most recently because:
+MustScanSubDirs UserDroppedTo resolve, please review the information on
+https://facebook.github.io/watchman/docs/troubleshooting.html#recrawl
+To clear this warning, run:
+`watchman watch-del '/Users/devingray/Projects/MSCW' ; watchman watch-project '/Users/devingray/Projects/MSCW'`
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+       99 |
+      100 |   it('should not render anything when visible is false', () => {
+    > 101 |     const component = TestRenderer.create(
+          |                                    ^
+      102 |       <SprintScorecardModal
+      103 |         visible={false}
+      104 |         onClose={jest.fn()}
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/sprintRetroShare.test.tsx:101:36)
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      111 |
+      112 |   it('should not render anything when sprint is null', () => {
+    > 113 |     const component = TestRenderer.create(
+          |                                    ^
+      114 |       <SprintScorecardModal
+      115 |         visible={true}
+      116 |         onClose={jest.fn()}
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/sprintRetroShare.test.tsx:113:36)
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      125 |     let component;
+      126 |     try {
+    > 127 |       component = TestRenderer.create(
+          |                                ^
+      128 |         <SprintScorecardModal
+      129 |           visible={true}
+      130 |           onClose={jest.fn()}
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/sprintRetroShare.test.tsx:127:32)
+
+  console.warn
+    Clipboard has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-clipboard/clipboard' instead of 'react-native'. See https://github.com/react-native-clipboard/clipboard
+
+      167 |
+      168 |   it('should handle clipboard copy actions and trigger haptics', () => {
+    > 169 |     const clipboardSpy = jest.spyOn(Clipboard, 'setString').mockImplementation(() => {});
+          |                                     ^
+      170 |     const component = TestRenderer.create(
+      171 |       <SprintScorecardModal
+      172 |         visible={true}
+
+      at warn (node_modules/react-native/Libraries/Utilities/warnOnce.js:27:11)
+      at Object.warnOnce [as Clipboard] (node_modules/react-native/index.js:187:5)
+      at Object.Clipboard (src/__tests__/sprintRetroShare.test.tsx:169:37)
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      168 |   it('should handle clipboard copy actions and trigger haptics', () => {
+      169 |     const clipboardSpy = jest.spyOn(Clipboard, 'setString').mockImplementation(() => {});
+    > 170 |     const component = TestRenderer.create(
+          |                                    ^
+      171 |       <SprintScorecardModal
+      172 |         visible={true}
+      173 |         onClose={jest.fn()}
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/sprintRetroShare.test.tsx:170:36)
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      202 |   it('should handle standard team sharing correctly and trigger haptics', async () => {
+      203 |     const shareSpy = jest.spyOn(Share, 'share').mockResolvedValue({ action: Share.sharedAction });
+    > 204 |     const component = TestRenderer.create(
+          |                                    ^
+      205 |       <SprintScorecardModal
+      206 |         visible={true}
+      207 |         onClose={jest.fn()}
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/sprintRetroShare.test.tsx:204:36)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      230 |   it('should format output beautifully with default notes fallback when sprint retrospective notes are empty', () => {
+      231 |     const clipboardSpy = jest.spyOn(Clipboard, 'setString').mockImplementation(() => {});
+    > 232 |     const component = TestRenderer.create(
+          |                                    ^
+      233 |       <SprintScorecardModal
+      234 |         visible={true}
+      235 |         onClose={jest.fn()}
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/sprintRetroShare.test.tsx:232:36)
+
+FAIL src/__tests__/sprintRetroShare.test.tsx
+  Sprint Retro Export & Share Cards Tests
+    ✓ should not render anything when visible is false (24 ms)
+    ✓ should not render anything when sprint is null (2 ms)
+    ✕ should render the sprint details and ASCII progress bar correctly (2 ms)
+    ✕ should handle clipboard copy actions and trigger haptics (7 ms)
+    ✕ should handle standard team sharing correctly and trigger haptics (7 ms)
+    ✕ should format output beautifully with default notes fallback when sprint retrospective notes are empty (2 ms)
+
+  ● Sprint Retro Export & Share Cards Tests › should render the sprint details and ASCII progress bar correctly
+
+    Can't access .root on unmounted test renderer
+
+      137 |       throw e;
+      138 |     }
+    > 139 |     const root = component.root;
+          |                            ^
+      140 |
+      141 |     // Verify Sprint Number
+      142 |     const sprintTitle = root.findByProps({ className: 'text-on-surface font-black text-2xl tracking-tight' });
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at Object.root (src/__tests__/sprintRetroShare.test.tsx:139:28)
+
+  ● Sprint Retro Export & Share Cards Tests › should handle clipboard copy actions and trigger haptics
+
+    Can't access .root on unmounted test renderer
+
+      178 |     
+      179 |     // Find clipboard copy button
+    > 180 |     const root = component.root;
+          |                            ^
+      181 |     const buttons = root.findAllByProps({ className: 'flex-1 flex-row items-center justify-center gap-2 bg-surface-container-high border border-outline-variant py-3.5 rounded-2xl active:opacity-70' });
+      182 |     
+      183 |     expect(buttons.length).toBe(1);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at Object.root (src/__tests__/sprintRetroShare.test.tsx:180:28)
+
+  ● Sprint Retro Export & Share Cards Tests › should handle standard team sharing correctly and trigger haptics
+
+    Can't access .root on unmounted test renderer
+
+      211 |     );
+      212 |     
+    > 213 |     const root = component.root;
+          |                            ^
+      214 |     // Share button has dynamic background matching theme primary
+      215 |     const shareButton = root.findByProps({ style: { backgroundColor: '#ef4444' } });
+      216 |
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at Object.root (src/__tests__/sprintRetroShare.test.tsx:213:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● Sprint Retro Export & Share Cards Tests › should format output beautifully with default notes fallback when sprint retrospective notes are empty
+
+    Can't access .root on unmounted test renderer
+
+      239 |     );
+      240 |     
+    > 241 |     const root = component.root;
+          |                            ^
+      242 |     const copyButton = root.findAllByProps({ className: 'flex-1 flex-row items-center justify-center gap-2 bg-surface-container-high border border-outline-variant py-3.5 rounded-2xl active:opacity-70' })[0];
+      243 |     
+      244 |     act(() => {
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at Object.root (src/__tests__/sprintRetroShare.test.tsx:241:28)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 2 passed, 6 total
+Snapshots:   0 total
+Time:        1.017 s, estimated 2 s
+Ran all test suites matching /src\/__tests__\/sprintRetroShare.test.tsx/i.
+
+ReferenceError: You are trying to `import` a file after the Jest environment has been torn down. From src/__tests__/sprintRetroShare.test.tsx.
+
+       96 |
+       97 |   const handleCopy = () => {
+    >  98 |     if (hapticsEnabled) {
+          |                          ^
+       99 |       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      100 |     }
+      101 |     const text = getScorecardText();
+
+      at Object.require [as Modal] (node_modules/react-native/index.js:67:12)
+      at SprintScorecardModal (src/components/SprintScorecardModal.tsx:98:44)
+      at Object.react_stack_bottom_frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15670:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4863:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7018:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:8499:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13224:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13068:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13049:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12181:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+
+ReferenceError: You are trying to `import` a file after the Jest environment has been torn down. From src/__tests__/sprintRetroShare.test.tsx.
+
+      101 |     const text = getScorecardText();
+      102 |     Clipboard.setString(text);
+    > 103 |     setCopied(true);
+          |                     ^
+      104 |     setTimeout(() => setCopied(false), 2000);
+      105 |   };
+      106 |
+
+      at Object.require [as View] (node_modules/react-native/index.js:146:12)
+      at SprintScorecardModal (src/components/SprintScorecardModal.tsx:103:49)
+      at Object.react_stack_bottom_frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15670:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4863:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7018:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:8499:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13224:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13068:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13049:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12181:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+
+ReferenceError: You are trying to `import` a file after the Jest environment has been torn down. From src/__tests__/sprintRetroShare.test.tsx.
+
+      125 |               shadowColor: '#000000',
+      126 |               shadowOffset: { width: 0, height: 12 },
+    > 127 |               shadowOpacity: isDark ? 0.4 : 0.06,
+          |                                              ^
+      128 |               shadowRadius: 32,
+      129 |               elevation: 8,
+      130 |             }}
+
+      at Object.require [as Platform] (node_modules/react-native/index.js:282:12)
+      at maybeHijackSafeAreaProvider (node_modules/react-native-css-interop/src/runtime/third-party-libs/react-native-safe-area-context.native.tsx:31:22)
+      at node_modules/react-native-css-interop/src/runtime/wrap-jsx.ts:25:31
+      at SprintScorecardModal (src/components/SprintScorecardModal.tsx:127:46)
+      at Object.react_stack_bottom_frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15670:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4863:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7018:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:8499:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13224:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13068:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13049:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12181:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+  console.warn
+    An error occurred in the <SprintScorecardModal> component.
+    
+    Consider adding an error boundary to your tree to customize error handling behavior.
+    Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+      at defaultOnUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6400:15)
+      at logUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6460:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at lane.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6490:9)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10103:15)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at commitRootWhenReady (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12444:7)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12391:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+
+  console.warn
+    An error occurred in the <SprintScorecardModal> component.
+    
+    Consider adding an error boundary to your tree to customize error handling behavior.
+    Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+      at defaultOnUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6400:15)
+      at logUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6460:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at lane.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6490:9)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10103:15)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at commitRootWhenReady (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12444:7)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12391:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+
+  console.warn
+    An error occurred in the <SprintScorecardModal> component.
+    
+    Consider adding an error boundary to your tree to customize error handling behavior.
+    Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+      at defaultOnUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6400:15)
+      at logUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6460:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at lane.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6490:9)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10103:15)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at commitRootWhenReady (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12444:7)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12391:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+
+  console.warn
+    An error occurred in the <SprintScorecardModal> component.
+    
+    Consider adding an error boundary to your tree to customize error handling behavior.
+    Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+      at defaultOnUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6400:15)
+      at logUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6460:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at lane.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6490:9)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10103:15)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at commitRootWhenReady (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12444:7)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12391:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+

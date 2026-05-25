@@ -8,6 +8,7 @@ import { Task, AppSettings } from '../types';
 
 describe('MSCW AI Planner Tests', () => {
   const mockSettings: AppSettings = {
+    isPremium: false,
     dailyCapacity: 8,
     zenDuration: 25,
     hapticsEnabled: true,
@@ -18,6 +19,9 @@ describe('MSCW AI Planner Tests', () => {
     hasSeenOnboarding: false,
     currentStreakDays: 3,
     longestStreakDays: 5,
+    sprintNumber: 1,
+    sprintStartDate: new Date().toISOString(),
+    sprintLengthDays: 7,
   };
 
   describe('Capacity Guardian', () => {
@@ -34,7 +38,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Big Task',
           points: 5,
           priority: 'must',
-          status: 'board',
+          status: 'today',
           completed: false,
           createdAt: '',
         },
@@ -43,7 +47,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Another Task',
           points: 5,
           priority: 'should',
-          status: 'board',
+          status: 'today',
           completed: false,
           createdAt: '',
         }
@@ -60,7 +64,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Bug Fix',
           points: 3,
           priority: 'must',
-          status: 'board',
+          status: 'today',
           completed: false,
           type: 'Bug',
           createdAt: '',
@@ -70,7 +74,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Refactor',
           points: 3,
           priority: 'should',
-          status: 'board',
+          status: 'today',
           completed: false,
           type: 'Tech Debt',
           createdAt: '',
@@ -80,7 +84,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Feature Work',
           points: 1,
           priority: 'could',
-          status: 'board',
+          status: 'today',
           completed: false,
           type: 'Feature',
           createdAt: '',
@@ -98,7 +102,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Critical Must',
           points: 7,
           priority: 'must',
-          status: 'board',
+          status: 'today',
           completed: false,
           createdAt: '',
         },
@@ -107,7 +111,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Minor Should',
           points: 1,
           priority: 'should',
-          status: 'board',
+          status: 'today',
           completed: false,
           createdAt: '',
         }
@@ -124,7 +128,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Balanced Feature',
           points: 5,
           priority: 'must',
-          status: 'board',
+          status: 'today',
           completed: false,
           createdAt: '',
         }
@@ -174,7 +178,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Could task',
           points: 2,
           priority: 'could',
-          status: 'board',
+          status: 'today',
           completed: false,
           createdAt: '',
         }
@@ -191,7 +195,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Should task',
           points: 3,
           priority: 'should',
-          status: 'board',
+          status: 'today',
           completed: false,
           createdAt: '',
         }
@@ -208,7 +212,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Must task',
           points: 5,
           priority: 'must',
-          status: 'board',
+          status: 'today',
           completed: false,
           createdAt: '',
         }
@@ -227,7 +231,7 @@ describe('MSCW AI Planner Tests', () => {
           title: 'Must Task',
           points: 3,
           priority: 'must',
-          status: 'board',
+          status: 'today',
           completed: true,
           createdAt: '',
         }

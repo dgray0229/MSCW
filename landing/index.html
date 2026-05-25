@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- SEO Primary Meta Tags -->
+  <title>FocusMust | Constraint-Driven Agile To-Do List & Priority Board</title>
+  <meta name="description" content="Stop overwhelming yourself with infinite checklists. FocusMust is the personal Agile board that enforces focus with a strict daily 8-point capacity limit, Fibonacci estimation, and Zen Mode.">
+  <meta name="keywords" content="personal MoSCoW prioritization, daily capacity limit, personal Kanban, Agile productivity, Fibonacci task estimation, FocusMust, time block planner, ADHD productivity app">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://focusmust.com">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://focusmust.com">
+  <meta property="og:title" content="FocusMust | Constraint-Driven Agile To-Do List & Priority Board">
+  <meta property="og:description" content="Master daily focus with MoSCoW prioritization and a strict 8-point daily limit. Work smarter, beat burnout, and experience pure flow.">
+  <meta property="og:image" content="assets/app_homepage.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://focusmust.com">
+  <meta property="twitter:title" content="FocusMust | Constraint-Driven Agile To-Do List & Priority Board">
+  <meta property="twitter:description" content="Master daily focus with MoSCoW prioritization and a strict 8-point daily limit. Work smarter, beat burnout, and experience pure flow.">
+  <meta property="twitter:image" content="assets/app_homepage.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <!-- JSON-LD Structured Data Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "FocusMust",
+      "operatingSystem": "iOS, Android, Web",
+      "applicationCategory": "ProductivityApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "142"
+      },
+      "featureList": [
+        "MoSCoW Prioritization (Must, Should, Could, Won't)",
+        "Daily 8-point Capacity Enforcer",
+        "Fibonacci-based Task Estimation",
+        "Zen Mode Deep Focus Guides",
+        "AI Capacity Burnout Guardian",
+        "Bi-directional Google & Apple Calendar Sync",
+        "RevenueCat Subscriptions integration"
+      ]
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="#" class="logo" id="nav-logo">
+        <span class="logo-dot"></span>
+        Focus<span>Must</span>
+      </a>
+      <nav class="nav-links" id="main-nav">
+        <a href="#features">Features</a>
+        <a href="#calculator">Capacity Calculator</a>
+        <a href="#methodology">The Science</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#pricing" class="btn btn-secondary btn-sm">Get Premium</a>
+        <a href="https://app.focusmust.com" class="btn btn-primary btn-sm">Launch App</a>
+      </div>
+      <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          The Constraint-Driven Agile Board
+        </div>
+        <h1 class="hero-title">Stop Making Infinite To-Do Lists. Start Enforcing <span class="text-gradient">Focus.</span></h1>
+        <p class="hero-subtitle">FocusMust is the ultimate personal planner that limits your day to a hard **8-point daily capacity** using Fibonacci task points. Reclaim control of your productivity, conquer your Must-Haves, and prevent burnout.</p>
+        <div class="hero-ctas">
+          <a href="https://app.focusmust.com" class="btn btn-primary btn-lg" id="hero-cta-primary">Start Planning Free</a>
+          <a href="#calculator" class="btn btn-outline btn-lg" id="hero-cta-secondary">Try Calculator</a>
+        </div>
+        <div class="hero-social-proof">
+          <div class="avatars">
+            <span class="avatar" style="background-color: #3b82f6;">DG</span>
+            <span class="avatar" style="background-color: #ec4899;">JD</span>
+            <span class="avatar" style="background-color: #10b981;">AL</span>
+            <span class="avatar" style="background-color: #8b5cf6;">SK</span>
+          </div>
+          <p>Loved by <strong>10,000+</strong> developers, designers, and high-performance builders.</p>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="mockup-frame">
+          <div class="mockup-header">
+            <span class="mockup-dot red"></span>
+            <span class="mockup-dot yellow"></span>
+            <span class="mockup-dot green"></span>
+            <div class="mockup-url">app.focusmust.com</div>
+          </div>
+          <div class="mockup-content">
+            <img src="assets/dashboard.png" alt="FocusMust Beautiful Dark Mode Dashboard" class="hero-img">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Built for High-Velocity Execution</h2>
+        <p class="section-subtitle">Ditch standard text checklists. FocusMust integrates modern software development Agile practices directly into your personal workspace.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card" id="feat-moscow">
+          <div class="feature-icon red-glow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          </div>
+          <h3 class="feature-card-title">MoSCoW Prioritization</h3>
+          <p class="feature-card-description">Categorize tasks strictly into **Must-Have**, **Should-Have**, **Could-Have**, or **Won't-Have** columns. Protect your day by tackling only the true non-negotiables.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card" id="feat-limit">
+          <div class="feature-icon orange-glow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
+          </div>
+          <h3 class="feature-card-title">The Daily 8-Point Constraint</h3>
+          <p class="feature-card-description">You only get **8 Fibonacci points** of total capacity per day. When your capacity bar fills, the app prevents you from adding more. Say goodbye to bloated schedules.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card" id="feat-guardian">
+          <div class="feature-icon teal-glow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="feature-card-title">AI Capacity Guardian</h3>
+          <p class="feature-card-description">An integrated AI concierge acts as your cognitive shield. It reviews your sprint load, detects high burnout risks, and helps you delegate or schedule overflow tasks.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card" id="feat-zen">
+          <div class="feature-icon purple-glow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <h3 class="feature-card-title">Zen Execution Mode</h3>
+          <p class="feature-card-description">Enter a completely distraction-free, full-screen Zen dashboard. Prompts and haptic micro-rewards guide you single-mindedly through your active Must-Haves.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Calculator Section -->
+  <section id="calculator" class="calculator-section">
+    <div class="container calculator-grid">
+      <div class="calculator-content">
+        <h2 class="section-title">Calculate Your Daily Load</h2>
+        <p class="section-subtitle">Experience the FocusMust philosophy interactively. Create tasks below, assign **Fibonacci points**, and watch how quickly your daily capacity fills up.</p>
+        
+        <div class="calculator-stats">
+          <div class="stat-box">
+            <div class="stat-num" id="calc-points-display">0 / 8</div>
+            <div class="stat-label">Points Utilized</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-status text-green" id="calc-status-display">Healthy Load</div>
+            <div class="stat-label">AI Guardian Status</div>
+          </div>
+        </div>
+
+        <div class="capacity-gauge-container">
+          <div class="capacity-gauge-label">
+            <span>Daily Capacity Bar</span>
+            <span id="capacity-percentage">0%</span>
+          </div>
+          <div class="capacity-gauge-track">
+            <div class="capacity-gauge-fill" id="calc-gauge-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="calc-task-form">
+          <input type="text" id="calc-task-title" placeholder="What task needs doing?..." aria-label="Task title">
+          <select id="calc-task-points" aria-label="Fibonacci Points">
+            <option value="1">1 Point (Trivial - 15m)</option>
+            <option value="2">2 Points (Quick - 1h)</option>
+            <option value="3">3 Points (Medium - 2-3h)</option>
+            <option value="5">5 Points (Large - 4-5h)</option>
+            <option value="8">8 Points (Epic - Full Day)</option>
+          </select>
+          <button id="btn-add-calc-task" class="btn btn-primary">Add Task</button>
+        </div>
+      </div>
+
+      <div class="calculator-visual">
+        <div class="calc-board">
+          <div class="calc-board-header">
+            <h4>Active Priority Column</h4>
+            <span class="badge" id="calc-task-count">0 Tasks</span>
+          </div>
+          <div class="calc-board-tasks" id="calc-tasks-list">
+            <!-- Dynamic task injection -->
+            <div class="empty-state" id="calc-empty-state">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+              <p>Add a task to see capacity tracking in real-time!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Methodology / Science Section -->
+  <section id="methodology" class="methodology-section">
+    <div class="container methodology-grid">
+      <div class="methodology-visual">
+        <div class="circle-graphic">
+          <div class="circle outer">8</div>
+          <div class="circle middle">5</div>
+          <div class="circle inner">3</div>
+        </div>
+      </div>
+      <div class="methodology-content">
+        <h2 class="section-title">The Science of Constraint-Driven Planning</h2>
+        <p class="methodology-text">Studies in cognitive psychology reveal that human beings can only maintain active focus on **3 to 4 major tasks** per day. By giving tasks a weight based on complexity (the Fibonacci sequence) and setting a absolute limit of **8 points**, FocusMust aligns with your natural brain constraints.</p>
+        <div class="accordion">
+          <div class="accordion-item active">
+            <button class="accordion-trigger">Why 8 Points?</button>
+            <div class="accordion-panel">
+              <p>An 8-point limit represents a standardized, fully productive 8-hour workday. In Fibonacci sizing, an 8-point task is a full-day epic, whereas 1-point and 2-point tasks represent brief routines. Limiting to 8 points stops the urge of over-scheduling.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger">The Zeigarnik Effect</button>
+            <div class="accordion-panel">
+              <p>Incomplete tasks linger in our subconscious, causing anxiety and background fatigue. By parking non-negotiable "Won't-Haves" safely in the sprint backlog, FocusMust signals to your brain that they are planned for later, clearing immediate mental RAM.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger">AI Capacity Guardian & Burnout Prevention</button>
+            <div class="accordion-panel">
+              <p>When you overload a day, the AI Guardian intervenes. Instead of letting you fail, it acts as a digital advisor, recommending you delegate lesser Could-Haves to clear space for core priorities.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Clean, Transparent Pricing</h2>
+        <p class="section-subtitle">Start for free. Level up your productivity with full calendar integrations and AI coaching when you are ready.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Tier 1 -->
+        <div class="pricing-card">
+          <h3 class="pricing-tier">Core Board</h3>
+          <div class="price">$0<span>/forever</span></div>
+          <p class="pricing-desc">The essential constraint-driven board for personal projects.</p>
+          <ul class="pricing-features">
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              MoSCoW Kanban Board
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Daily 8-Point capacity limit
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Basic task backlogging
+            </li>
+          </ul>
+          <a href="https://app.focusmust.com" class="btn btn-outline btn-block">Get Started</a>
+        </div>
+
+        <!-- Tier 2 (Featured) -->
+        <div class="pricing-card featured">
+          <div class="featured-badge">Highly Popular</div>
+          <h3 class="pricing-tier text-white">Premium Focus</h3>
+          <div class="price text-white">$4.99<span>/month</span></div>
+          <p class="pricing-desc text-slate-300">Unleash the full power of Agile constraints with AI guarding.</p>
+          <ul class="pricing-features text-slate-300">
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Everything in Core Board
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              AI Capacity Guardian & Triage
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Apple & Google Calendar Sync
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Zen Mode execution & haptics
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Unlimited sprints & full analytics
+            </li>
+          </ul>
+          <a href="https://app.focusmust.com?upgrade=premium" class="btn btn-primary btn-block">Start Free Trial</a>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="pricing-card">
+          <h3 class="pricing-tier">Lifetime Founder</h3>
+          <div class="price">$89.99<span>/one-time</span></div>
+          <p class="pricing-desc">Own FocusMust forever. Join our community of builder supporters.</p>
+          <ul class="pricing-features">
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Lifetime access to all Premium features
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Founder badge in app UI
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Private founder community channels
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              Direct roadmap voting rights
+            </li>
+          </ul>
+          <a href="https://app.focusmust.com?upgrade=lifetime" class="btn btn-outline btn-block">Own It Forever</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container cta-container">
+      <div class="cta-glow"></div>
+      <h2 class="cta-title">Conquer Your Must-Haves Today</h2>
+      <p class="cta-subtitle">Rebuild your relationship with productivity. Restrict clutter, avoid cognitive overload, and cross the finish line every single day.</p>
+      <div class="cta-buttons">
+        <a href="https://app.focusmust.com" class="btn btn-primary btn-lg">Launch Free Board</a>
+        <a href="#methodology" class="btn btn-outline btn-lg text-white">Read Methodology</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-dot"></span>
+          Focus<span>Must</span>
+        </a>
+        <p class="footer-desc">Enforcing real personal focus through Agile capacity planning.</p>
+      </div>
+      <div class="footer-links-group">
+        <div>
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#calculator">Calculator</a>
+          <a href="#pricing">Pricing</a>
+          <a href="https://app.focusmust.com">Web Dashboard</a>
+        </div>
+        <div>
+          <h4>Agile Resources</h4>
+          <a href="#methodology">MoSCoW Prioritization</a>
+          <a href="https://docs.focusmust.com">Fibonacci Sizing Docs</a>
+          <a href="https://docs.focusmust.com/burnout">Burnout Science</a>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <a href="https://focusmust.com/privacy">Privacy Policy</a>
+          <a href="https://focusmust.com/terms">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 FocusMust App. Built for builders by FocusMust Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>

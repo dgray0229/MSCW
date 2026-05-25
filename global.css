@@ -7,55 +7,54 @@
     --color-primary: #b61722;
     --color-on-primary: #ffffff;
     
-    --color-secondary: #855300;
+    --color-secondary: #804E00;
     --color-on-secondary: #ffffff;
     
     --color-tertiary: #00685f;
     --color-on-tertiary: #ffffff;
 
-    --color-background: #fbfdf9;
-    --color-on-background: #191c1b;
+    --color-background: #fafafc;
+    --color-on-background: #0f172a;
 
-    --color-surface: #fbfdf9;
-    --color-on-surface: #191c1b;
-    --color-on-surface-variant: #49454f;
+    --color-surface: #ffffff;
+    --color-on-surface: #0f172a;
+    --color-on-surface-variant: #64748b;
 
     --color-surface-container-lowest: #ffffff;
-    --color-surface-container-low: #f3f4f3;
-    --color-surface-container: #edeceb;
-    --color-surface-container-high: #e7e6e5;
-    --color-surface-container-highest: #e0e0e0;
+    --color-surface-container-low: #f8fafc;
+    --color-surface-container: #f1f5f9;
+    --color-surface-container-high: #e2e8f0;
+    --color-surface-container-highest: #cbd5e1;
 
-    --color-outline: #79747e;
-    --color-outline-variant: #c4c7c5;
+    --color-outline: #94a3b8;
+    --color-outline-variant: #e2e8f0;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-primary: #ffb4a9;
-      --color-on-primary: #69000b;
-      
-      --color-secondary: #ffb86f;
-      --color-on-secondary: #472a00;
-      
-      --color-tertiary: #51dbc9;
-      --color-on-tertiary: #003732;
+  .dark {
+    --color-primary: #ffb4a9;
+    --color-on-primary: #69000b;
+    
+    --color-secondary: #ffb86f;
+    --color-on-secondary: #472a00;
+    
+    --color-tertiary: #51dbc9;
+    --color-on-tertiary: #003732;
 
-      --color-background: #191c1b;
-      --color-on-background: #e1e3e0;
+    --color-background: #0b0f19;
+    --color-on-background: #f8fafc;
 
-      --color-surface: #191c1b;
-      --color-on-surface: #e1e3e0;
-      --color-on-surface-variant: #cac4d0;
+    --color-surface: #131b2e;
+    --color-on-surface: #f8fafc;
+    --color-on-surface-variant: #94a3b8;
 
-      --color-surface-container-lowest: #0d0f0e;
-      --color-surface-container-low: #191c1b;
-      --color-surface-container: #1e201f;
-      --color-surface-container-high: #282b29;
-      --color-surface-container-highest: #333534;
+    --color-surface-container-lowest: #131b2e;
+    --color-surface-container-low: #0f172a;
+    --color-surface-container: #1e293b;
+    --color-surface-container-high: #334155;
+    --color-surface-container-highest: #475569;
 
-      --color-outline: #938f99;
-      --color-outline-variant: #444746;
-    }
+    --color-outline: #243354;
+    --color-outline-variant: #1e293b;
   }
 }
+

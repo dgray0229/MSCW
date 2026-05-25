@@ -12,6 +12,7 @@ describe('MSCW Zustand Store Tests', () => {
       _hasHydrated: true,
       tasks: [],
       settings: {
+        isPremium: false,
         dailyCapacity: 8,
         zenDuration: 25,
         hapticsEnabled: true,
@@ -22,6 +23,9 @@ describe('MSCW Zustand Store Tests', () => {
         hasSeenOnboarding: false,
         currentStreakDays: 0,
         longestStreakDays: 0,
+        sprintNumber: 1,
+        sprintStartDate: new Date().toISOString(),
+        sprintLengthDays: 7,
       },
     });
   });
@@ -78,14 +82,14 @@ describe('MSCW Zustand Store Tests', () => {
     addedState.updateTask(taskId, {
       completed: true,
       priority: 'must',
-      status: 'board',
+      status: 'today',
     });
 
     const updatedState = useAppStore.getState();
     const task = updatedState.tasks[0];
     expect(task.completed).toBe(true);
     expect(task.priority).toBe('must');
-    expect(task.status).toBe('board');
+    expect(task.status).toBe('today');
   });
 
   it('should delete a task by ID', () => {
@@ -123,9 +127,9 @@ describe('MSCW Zustand Store Tests', () => {
     const state = useAppStore.getState();
     
     // Add completed task on board
-    state.addTask({ title: 'Task 1', status: 'board', priority: 'must' });
+    state.addTask({ title: 'Task 1', status: 'today', priority: 'must' });
     // Add uncompleted task on board
-    state.addTask({ title: 'Task 2', status: 'board', priority: 'should' });
+    state.addTask({ title: 'Task 2', status: 'today', priority: 'should' });
     // Add completed task in backlog
     state.addTask({ title: 'Task 3', status: 'backlog', priority: 'could' });
 
@@ -151,7 +155,7 @@ describe('MSCW Zustand Store Tests', () => {
     expect(task1?.status).toBe('archive');
     expect(task1?.completedAt).toBeDefined();
     
-    expect(task2?.status).toBe('board');
+    expect(task2?.status).toBe('today');
     expect(task2?.completedAt).toBeUndefined();
 
     expect(task3?.status).toBe('backlog'); // backlog completed tasks should not be archived by day end board finalizer
@@ -166,13 +170,14 @@ describe('MSCW Zustand Store Tests', () => {
         title: 'Task from Cloud',
         points: 2,
         priority: 'must' as const,
-        status: 'board' as const,
+        status: 'today' as const,
         completed: false,
         createdAt: new Date().toISOString(),
       }
     ];
 
     const cloudSettings = {
+      isPremium: false,
       dailyCapacity: 15,
       zenDuration: 30,
       hapticsEnabled: false,
@@ -183,6 +188,9 @@ describe('MSCW Zustand Store Tests', () => {
       hasSeenOnboarding: true,
       currentStreakDays: 5,
       longestStreakDays: 10,
+      sprintNumber: 1,
+      sprintStartDate: new Date().toISOString(),
+      sprintLengthDays: 7,
     };
 
     state.syncWithCloud(cloudTasks, cloudSettings);

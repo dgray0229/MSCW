@@ -1,10 +1,22 @@
 import { Platform } from 'react-native';
 import Purchases, { LOG_LEVEL, PurchasesPackage, CustomerInfo } from 'react-native-purchases';
 import RevenueCatUI from 'react-native-purchases-ui';
+import { useAppStore } from '../store';
 
 // Default API Key provided by the user
 const REVENUECAT_API_KEY = 'test_CcIQClCwvFMyzCWkkNTEuUWqTCo';
 export const ENTITLEMENT_ID = 'MSCW Pro';
+
+/**
+ * Synchronizes the premium status with the global Zustand store
+ */
+export const updatePremiumStore = (isActive: boolean) => {
+  try {
+    useAppStore.getState().updateSettings({ isPremium: isActive });
+  } catch (err) {
+    console.warn('Failed to update premium store:', err);
+  }
+};
 
 export const initRevenueCat = async () => {
   try {
@@ -22,6 +34,10 @@ export const initRevenueCat = async () => {
 
     await Purchases.configure({ apiKey });
     console.log('RevenueCat initialized successfully with key:', apiKey);
+
+    // Fetch and check initial premium status on launch
+    const isPro = await checkPremiumStatus();
+    updatePremiumStore(isPro);
   } catch (error) {
     console.error('Failed to initialize RevenueCat:', error);
   }
@@ -33,10 +49,17 @@ export const initRevenueCat = async () => {
 export const checkPremiumStatus = async (): Promise<boolean> => {
   try {
     const customerInfo = await Purchases.getCustomerInfo();
-    return customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
+    const isActive = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
+    updatePremiumStore(isActive);
+    return isActive;
   } catch (error) {
     console.error('Failed to retrieve customer info:', error);
-    return false;
+    // Fall back to local Zustand premium state if offline or failed
+    try {
+      return useAppStore.getState().settings.isPremium;
+    } catch {
+      return false;
+    }
   }
 };
 
@@ -72,6 +95,8 @@ export const fetchOfferings = async (): Promise<{
 export const purchasePackage = async (pack: PurchasesPackage): Promise<CustomerInfo | null> => {
   try {
     const { customerInfo } = await Purchases.purchasePackage(pack);
+    const isActive = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
+    updatePremiumStore(isActive);
     return customerInfo;
   } catch (error: any) {
     if (error.userCancelled) {
@@ -89,7 +114,9 @@ export const purchasePackage = async (pack: PurchasesPackage): Promise<CustomerI
 export const restorePurchases = async (): Promise<boolean> => {
   try {
     const customerInfo = await Purchases.restorePurchases();
-    return customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
+    const isActive = customerInfo.entitlements.active[ENTITLEMENT_ID] !== undefined;
+    updatePremiumStore(isActive);
+    return isActive;
   } catch (error) {
     console.error('Error restoring purchases:', error);
     return false;
@@ -105,10 +132,11 @@ export const presentPaywallIfNeeded = async (): Promise<boolean> => {
     const result = await RevenueCatUI.presentPaywallIfNeeded({
       requiredEntitlementIdentifier: ENTITLEMENT_ID,
     });
-    return (
+    const isActive =
       result === RevenueCatUI.PAYWALL_RESULT.NOT_PRESENTED ||
-      result === RevenueCatUI.PAYWALL_RESULT.PURCHASED
-    );
+      result === RevenueCatUI.PAYWALL_RESULT.PURCHASED;
+    updatePremiumStore(isActive);
+    return isActive;
   } catch (error) {
     console.error('Error presenting paywall:', error);
     return false;

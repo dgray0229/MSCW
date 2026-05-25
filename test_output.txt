@@ -1,0 +1,89 @@
+watchman warning:  Recrawled this watch 17 times, most recently because:
+MustScanSubDirs UserDroppedTo resolve, please review the information on
+https://facebook.github.io/watchman/docs/troubleshooting.html#recrawl
+To clear this warning, run:
+`watchman watch-del '/Users/devingray/Projects/MSCW' ; watchman watch-project '/Users/devingray/Projects/MSCW'`
+
+  console.warn
+    Clipboard has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-clipboard/clipboard' instead of 'react-native'. See https://github.com/react-native-clipboard/clipboard
+
+      227 |
+      228 |   it('should handle clipboard copy actions and trigger haptics', () => {
+    > 229 |     const clipboardSpy = jest.spyOn(Clipboard, 'setString').mockImplementation(() => {});
+          |                                     ^
+      230 |     let component: any;
+      231 |     act(() => {
+      232 |       component = TestRenderer.create(
+
+      at warn (node_modules/react-native/Libraries/Utilities/warnOnce.js:27:11)
+      at Object.warnOnce [as Clipboard] (node_modules/react-native/index.js:187:5)
+      at Object.Clipboard (src/__tests__/sprintRetroShare.test.tsx:229:37)
+
+FAIL src/__tests__/sprintRetroShare.test.tsx
+  Sprint Retro Export & Share Cards Tests
+    ✓ should not render anything when visible is false (7 ms)
+    ✓ should not render anything when sprint is null (1 ms)
+    ✕ should render the sprint details and ASCII progress bar correctly (2453 ms)
+    ✕ should handle clipboard copy actions and trigger haptics (25 ms)
+    ✕ should handle standard team sharing correctly and trigger haptics (20 ms)
+    ✓ should format output beautifully with default notes fallback when sprint retrospective notes are empty (25 ms)
+
+  ● Sprint Retro Export & Share Cards Tests › should render the sprint details and ASCII progress bar correctly
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: "Sprint #5"
+    Received array: ["Sprint #", 5]
+
+      201 |     // Verify Sprint Number
+      202 |     const sprintTitle = root.findByProps({ className: 'text-on-surface font-black text-2xl tracking-tight' });
+    > 203 |     expect(sprintTitle.props.children).toContain('Sprint #5');
+          |                                        ^
+      204 |
+      205 |     // Verify ASCII progress bar has correct fills
+      206 |     // 12/15 is 80%. 80% of 15 blocks is 12 blocks.
+
+      at Object.toContain (src/__tests__/sprintRetroShare.test.tsx:203:40)
+
+  ● Sprint Retro Export & Share Cards Tests › should handle clipboard copy actions and trigger haptics
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 3
+
+      246 |     const buttons = root.findAllByProps({ className: 'flex-1 flex-row items-center justify-center gap-2 bg-surface-container-high border border-outline-variant py-3.5 rounded-2xl active:opacity-70' });
+      247 |     
+    > 248 |     expect(buttons.length).toBe(1);
+          |                            ^
+      249 |     
+      250 |     act(() => {
+      251 |       buttons[0].props.onPress();
+
+      at Object.toBe (src/__tests__/sprintRetroShare.test.tsx:248:28)
+
+  ● Sprint Retro Export & Share Cards Tests › should handle standard team sharing correctly and trigger haptics
+
+    No instances found with props: {"style":{"backgroundColor":"#ef4444"}}
+
+      283 |     const root = component.root;
+      284 |     // Share button has dynamic background matching theme primary
+    > 285 |     const shareButton = root.findByProps({ style: { backgroundColor: '#ef4444' } });
+          |                              ^
+      286 |
+      287 |     await act(async () => {
+      288 |       shareButton.props.onPress();
+
+      at expectOne (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15161:13)
+      at ReactTestInstance.Object.<anonymous>.process.env.NODE_ENV._proto.findByProps (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17219:18)
+      at Object.findByProps (src/__tests__/sprintRetroShare.test.tsx:285:30)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+Test Suites: 1 failed, 1 total
+Tests:       3 failed, 3 passed, 6 total
+Snapshots:   0 total
+Time:        4.412 s
+Ran all test suites matching /src\/__tests__\/sprintRetroShare.test.tsx/i.

@@ -20,7 +20,11 @@
       "buildNumber": "1.0.0",
       "supportsTablet": true,
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCalendarsUsageDescription": "Allow MSCW to sync tasks and schedule time blocks on your calendar.",
+        "NSCalendarsFullAccessUsageDescription": "Allow MSCW to sync tasks and schedule time blocks on your calendar.",
+        "NSRemindersUsageDescription": "Allow MSCW to sync tasks with your device reminders.",
+        "NSRemindersFullAccessUsageDescription": "Allow MSCW to sync tasks with your device reminders."
       }
     },
     "android": {
@@ -70,6 +74,13 @@
           "ios": {
             "useFrameworks": "static"
           }
+        }
+      ],
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "Allow MSCW to sync tasks and schedule time blocks on your calendar.",
+          "remindersPermission": "Allow MSCW to sync tasks with your device reminders."
         }
       ]
     ],

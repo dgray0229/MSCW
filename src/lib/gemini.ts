@@ -81,6 +81,137 @@ export const parseBrainDump = async (text: string): Promise<AIDraftTask[]> => {
   }
 };
 
+const DECONSTRUCT_SYSTEM_INSTRUCTION = `
+You are the FocusMust Task Deconstructor. You help users break down a complex task into a checklist of clear, actionable, bite-sized micro-steps.
+Each step should take between 15 minutes to 2 hours.
+Keep the subtasks highly practical, action-oriented, and focused.
+Based on the task title and the Fibonacci complexity points (1, 2, 3, 5, or 8 points, representing roughly the time weight where 1 is ~15m-1h, and 8 is a full epic day):
+Decompose the task into exactly 3 to 5 clear subtasks.
+Output a strict JSON array of strings, for example:
+[
+  "First specific action step",
+  "Second specific action step",
+  "Third specific action step"
+]
+
+Strictly return a valid JSON array of strings. Do not include any markdown, triple backticks, or explanation. Only return the JSON.
+`;
+
+/**
+ * Direct fetch client to call Google Gemini 2.5 Flash API to deconstruct a task into subtasks
+ */
+export const deconstructTask = async (title: string, points: number): Promise<string[]> => {
+  if (!title.trim()) return [];
+
+  // Fallback to local parsing if no API key is configured
+  if (!GEMINI_API_KEY) {
+    console.warn('EXPO_PUBLIC_GEMINI_API_KEY is not defined. Using high-quality sandbox task deconstruction.');
+    return generateMockSubtasks(title, points);
+  }
+
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: `${DECONSTRUCT_SYSTEM_INSTRUCTION}\n\nTask: "${title}" (${points} Fibonacci Complexity Points)` }],
+          },
+        ],
+        generationConfig: {
+          responseMimeType: 'application/json',
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    
+    if (!responseText) {
+      throw new Error('No content returned from Gemini');
+    }
+
+    // Clean any accidental markdown wrap
+    const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+    const subtasks: string[] = JSON.parse(cleanedJson);
+    if (Array.isArray(subtasks)) {
+      return subtasks;
+    }
+    throw new Error('Parsed response is not a string array');
+  } catch (error) {
+    console.error('Error deconstructing task with Gemini:', error);
+    // Graceful recovery: use local mock parser
+    return generateMockSubtasks(title, points);
+  }
+};
+
+/**
+ * Intelligent client-side fallback subtask generator
+ * Uses keyword scanning and point counts to return highly realistic action lists.
+ */
+export function generateMockSubtasks(title: string, points: number): string[] {
+  const lower = title.toLowerCase();
+  
+  if (/bug|fix|crash|error|broken|fail/i.test(lower)) {
+    return [
+      'Locate crash stack trace and collect error telemetry',
+      'Draft isolated local test scenario to reproduce failure',
+      'Apply code corrections and test edge boundary conditions',
+      'Perform complete regression check across active screens'
+    ];
+  }
+  
+  if (/design|color|style|layout|font|pixel|ui|css|theme/i.test(lower)) {
+    return [
+      'Review Figma layouts and gather color palette specifications',
+      'Implement responsive CSS structure and color system tokens',
+      'Inspect rendering alignment and margins across viewports',
+      'Validate accessibility contrast scores and hover interactions'
+    ];
+  }
+  
+  if (/refactor|clean|test|database|index|performance|sdk/i.test(lower)) {
+    return [
+      'Audit existing module files and benchmark response metrics',
+      'Isolate heavy functions and decompose into pure helper modules',
+      'Apply indexing, schema upgrades, or standard library refactors',
+      'Execute validation suite and verify backward compatibility'
+    ];
+  }
+
+  // General Feature / Catch-all based on points
+  if (points <= 2) {
+    return [
+      'Define simple input requirements and local state variables',
+      'Draft lightweight components and register event actions',
+      'Verify clean visual transition on screen interaction'
+    ];
+  } else if (points <= 5) {
+    return [
+      'Establish technical data models and global store bindings',
+      'Build core visual modules and responsive layout grids',
+      'Integrate validation logic, error overlays, and haptics',
+      'Perform detailed end-to-end user navigation checks'
+    ];
+  } else {
+    return [
+      'Research architectural architecture and library dependencies',
+      'Configure backing database schema and secure Firestore rules',
+      'Implement core state management routines and async API methods',
+      'Establish robust exception coverage and network offline fallback',
+      'Execute complete end-to-end integration checklist'
+    ];
+  }
+}
+
+
 /**
  * Intelligent client-side fallback parser
  * Uses keyword scanning to build highly realistic draft tasks matching user inputs.

@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
+import { useColorScheme } from '../hooks/use-color-scheme';
 import Animated, { 
   FadeIn, 
   FadeOut, 
@@ -43,12 +44,14 @@ interface AITriageDrawerProps {
 
 export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
   const addTask = useAppStore(state => state.addTask);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
   
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [draftTasks, setDraftTasks] = useState<AIDraftTask[]>([]);
   const [showResults, setShowResults] = useState(false);
-  const [activeImportMode, setActiveImportMode] = useState<'board' | 'backlog'>('board');
+  const [activeImportMode, setActiveImportMode] = useState<'sprint' | 'backlog'>('sprint');
 
   // Pulsing mic wave animation when parsing
   const pulseScale1 = useSharedValue(1);
@@ -144,7 +147,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
     { key: 'must', label: 'Must', color: 'text-primary', bg: 'bg-primary/10' },
     { key: 'should', label: 'Should', color: 'text-secondary', bg: 'bg-secondary/10' },
     { key: 'could', label: 'Could', color: 'text-tertiary', bg: 'bg-tertiary/10' },
-    { key: 'wont', label: 'Won\'t', color: 'text-on-surface-variant', bg: 'bg-surface-variant/20' },
+    { key: 'wont', label: 'Won\'t', color: 'text-slate-500 dark:text-slate-400', bg: 'bg-surface-variant/20' },
   ];
   const typeOptions: Task['type'][] = ['Feature', 'Bug', 'Tech Debt', 'Design', 'Security', 'Hotfix'];
 
@@ -188,7 +191,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
             /* Phase 1: Input mental dump */
             <View className="gap-6">
               <View>
-                <Text className="text-on-surface-variant font-medium text-xs leading-relaxed mb-4">
+                <Text className="text-slate-500 dark:text-slate-400 font-medium text-xs leading-relaxed mb-4">
                   Brain dump your tasks below. Write or speak naturally, and your AI assistant will instantly organize them into your backlog.
                 </Text>
                 
@@ -199,7 +202,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
                     multiline
                     numberOfLines={6}
                     placeholder="e.g. I must fix that login layout bug ASAP since iOS is crashing (takes 1 hour). I should also refactor the user profile settings, that's heavy, maybe 5 points. If I have time I could style the dark mode switch."
-                    placeholderTextColor="#8a929b"
+                    placeholderTextColor={isDark ? '#94A3B8' : '#64748B'}
                     className="w-full bg-surface-container rounded-3xl p-5 text-on-surface text-sm border border-outline-variant/40 min-h-[160px] text-left align-top font-medium"
                     textAlignVertical="top"
                   />
@@ -225,7 +228,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
               {/* Dictation Tip */}
               <View className="flex-row items-center gap-2 bg-surface-container-high p-3.5 rounded-2xl border border-outline-variant/30">
                 <Mic size={14} color="#8a929b" />
-                <Text className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider flex-1">
+                <Text className="text-xs text-slate-650 dark:text-slate-300 font-bold uppercase tracking-wider flex-1">
                   {"PRO-TIP: Tap the Microphone icon on your phone's keyboard spacebar to speak your mind directly!"}
                 </Text>
               </View>
@@ -243,7 +246,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
             /* Phase 2: Review Parsed Cards */
             <View className="max-h-[80%] gap-4">
               <View className="flex-row justify-between items-center">
-                <Text className="text-xs font-black text-on-surface-variant uppercase tracking-widest">Parsed AI Drafts ({draftTasks.length})</Text>
+                <Text className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Parsed AI Drafts ({draftTasks.length})</Text>
                 <Pressable onPress={handleReset} className="flex-row items-center gap-1 active:opacity-50">
                   <ArrowRightLeft size={12} color="#b61722" />
                   <Text className="text-primary font-bold text-xs">Redo Dump</Text>
@@ -269,7 +272,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
 
                         {/* Priority Selector */}
                         <View>
-                          <Text className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest mb-1.5">MoSCoW Priority</Text>
+                          <Text className="text-xs font-black text-slate-600 dark:text-slate-350 uppercase tracking-widest mb-1.5">MoSCoW Priority</Text>
                           <View className="flex-row gap-1.5 flex-wrap">
                             {priorityOptions.map(opt => (
                               <Pressable
@@ -277,7 +280,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
                                 onPress={() => updateDraftTask(index, { priority: opt.key })}
                                 className={`px-3 py-1 rounded-full border ${task.priority === opt.key ? `${opt.bg} border-primary` : 'bg-transparent border-outline-variant/30'}`}
                               >
-                                <Text className={`text-[10px] font-bold ${task.priority === opt.key ? opt.color : 'text-on-surface-variant'}`}>
+                                <Text className={`text-xs font-bold ${task.priority === opt.key ? opt.color : 'text-slate-600 dark:text-slate-300'}`}>
                                   {opt.label}
                                 </Text>
                               </Pressable>
@@ -289,7 +292,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
                         <View className="flex-row justify-between items-center gap-4 flex-wrap">
                           {/* Points */}
                           <View className="flex-1 min-w-[120px]">
-                            <Text className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest mb-1.5">Complexity Points</Text>
+                            <Text className="text-xs font-black text-slate-600 dark:text-slate-350 uppercase tracking-widest mb-1.5">Complexity Points</Text>
                             <View className="flex-row gap-1">
                               {pointOptions.map(p => (
                                 <Pressable
@@ -297,7 +300,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
                                   onPress={() => updateDraftTask(index, { points: p })}
                                   className={`w-7 h-7 rounded items-center justify-center border ${task.points === p ? 'bg-primary/10 border-primary' : 'bg-transparent border-outline-variant/30'}`}
                                 >
-                                  <Text className={`font-black text-[10px] ${task.points === p ? 'text-primary' : 'text-on-surface-variant'}`}>{p}</Text>
+                                  <Text className={`font-black text-xs ${task.points === p ? 'text-primary' : 'text-slate-600 dark:text-slate-300'}`}>{p}</Text>
                                 </Pressable>
                               ))}
                             </View>
@@ -305,7 +308,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
 
                           {/* Category Type */}
                           <View>
-                            <Text className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest mb-1.5">Category</Text>
+                            <Text className="text-xs font-black text-slate-600 dark:text-slate-350 uppercase tracking-widest mb-1.5">Category</Text>
                             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="max-w-[150px]">
                               <View className="flex-row gap-1">
                                 {typeOptions.map(t => (
@@ -315,7 +318,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
                                     className={`px-2.5 py-1 rounded-full border flex-row items-center gap-1 ${task.type === t ? 'bg-secondary/10 border-secondary' : 'bg-transparent border-outline-variant/30'}`}
                                   >
                                     <TypeIcon size={10} color={task.type === t ? '#855300' : '#8a929b'} />
-                                    <Text className={`text-[9px] font-bold ${task.type === t ? 'text-secondary' : 'text-on-surface-variant'}`}>{t}</Text>
+                                    <Text className={`text-xs font-bold ${task.type === t ? 'text-secondary' : 'text-slate-600 dark:text-slate-300'}`}>{t}</Text>
                                   </Pressable>
                                 ))}
                               </View>
@@ -326,7 +329,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
                         {/* Actionable Subtasks */}
                         {task.subtasks.length > 0 && (
                           <View className="bg-surface-container-high/40 p-3 rounded-2xl border border-outline-variant/20">
-                            <Text className="text-[8px] font-black text-on-surface-variant uppercase tracking-widest mb-2">Auto-Decomposed Subtasks</Text>
+                            <Text className="text-xs font-black text-slate-600 dark:text-slate-350 uppercase tracking-widest mb-2">Auto-Decomposed Subtasks</Text>
                             <View className="gap-2">
                               {task.subtasks.map((sub, sIdx) => (
                                 <View key={sIdx} className="flex-row items-center gap-2">
@@ -361,16 +364,16 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
               {/* Import Options Selector */}
               <View className="flex-row gap-2 border-t border-outline-variant/30 pt-4">
                 <Pressable
-                  onPress={() => setActiveImportMode('board')}
-                  className={`flex-1 py-3 rounded-2xl items-center border ${activeImportMode === 'board' ? 'bg-primary/10 border-primary' : 'bg-transparent border-outline-variant/30'}`}
+                  onPress={() => setActiveImportMode('sprint')}
+                  className={`flex-1 py-3 rounded-2xl items-center border ${activeImportMode === 'sprint' ? 'bg-primary/10 border-primary' : 'bg-transparent border-outline-variant/30'}`}
                 >
-                  <Text className={`font-black text-xs ${activeImportMode === 'board' ? 'text-primary' : 'text-on-surface-variant'}`}>Import to Board</Text>
+                  <Text className={`font-black text-xs ${activeImportMode === 'sprint' ? 'text-primary' : 'text-slate-500 dark:text-slate-400'}`}>Import to Sprint</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => setActiveImportMode('backlog')}
                   className={`flex-1 py-3 rounded-2xl items-center border ${activeImportMode === 'backlog' ? 'bg-primary/10 border-primary' : 'bg-transparent border-outline-variant/30'}`}
                 >
-                  <Text className={`font-black text-xs ${activeImportMode === 'backlog' ? 'text-primary' : 'text-on-surface-variant'}`}>Import to Backlog</Text>
+                  <Text className={`font-black text-xs ${activeImportMode === 'backlog' ? 'text-primary' : 'text-slate-500 dark:text-slate-400'}`}>Import to Backlog</Text>
                 </Pressable>
               </View>
 
@@ -378,7 +381,7 @@ export function AITriageDrawer({ visible, onClose }: AITriageDrawerProps) {
                 onPress={handleImportAll}
                 className="w-full py-4 rounded-2xl items-center justify-center bg-primary"
               >
-                <Text className="text-on-primary font-black text-sm uppercase tracking-wider">Commit drafts to Board ({draftTasks.length})</Text>
+                <Text className="text-on-primary font-black text-sm uppercase tracking-wider">Commit drafts to Sprint ({draftTasks.length})</Text>
               </Pressable>
             </View>
           )}

@@ -54,6 +54,7 @@ describe('useFirebaseSync Hook Tests', () => {
         _hasHydrated: true,
         tasks: [],
         settings: {
+          isPremium: false,
           dailyCapacity: 8,
           zenDuration: 25,
           hapticsEnabled: true,
@@ -64,6 +65,9 @@ describe('useFirebaseSync Hook Tests', () => {
           hasSeenOnboarding: false,
           currentStreakDays: 0,
           longestStreakDays: 0,
+          sprintNumber: 1,
+          sprintStartDate: new Date().toISOString(),
+          sprintLengthDays: 7,
           user: {
             uid: 'test-user-123',
             email: 'test@example.com',

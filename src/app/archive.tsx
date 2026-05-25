@@ -101,7 +101,7 @@ export default function ArchivePage() {
             className="mt-8 border border-error/30 bg-error/5 p-4 rounded-2xl items-center flex-row justify-center gap-2 active:opacity-80"
           >
             <Trash2 size={18} color="#ba1a1a" />
-            <Text className="text-error font-black uppercase tracking-widest text-sm">Purge All Filtered</Text>
+            <Text className="text-error font-black uppercase tracking-widest text-sm">Delete All</Text>
           </Pressable>
         )}
       </ScrollView>

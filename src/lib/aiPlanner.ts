@@ -33,13 +33,13 @@ const SOUNDSCAPES = [
  * Evaluates cognitive friction on the scheduled Daily Board and gives protective warnings.
  */
 export function getCapacityGuardianRecommendation(tasks: Task[], dailyCapacity: number): CapacityGuardianAlert {
-  const boardTasks = tasks.filter(t => t.status === 'board' && !t.completed);
-  const totalPoints = boardTasks.reduce((sum, t) => sum + (t.points || 0), 0);
+  const activeTasks = tasks.filter(t => t.status === 'today' && !t.completed);
+  const totalPoints = tasks.filter(t => t.status === 'today').reduce((sum, t) => sum + (t.points || 0), 0);
   
-  const mustHaves = boardTasks.filter(t => t.priority === 'must');
+  const mustHaves = activeTasks.filter(t => t.priority === 'must');
   const mustPoints = mustHaves.reduce((sum, t) => sum + (t.points || 0), 0);
 
-  const highFriction = boardTasks.filter(t => t.type === 'Bug' || t.type === 'Tech Debt' || t.type === 'Security');
+  const highFriction = activeTasks.filter(t => t.type === 'Bug' || t.type === 'Tech Debt' || t.type === 'Security');
   const highFrictionPoints = highFriction.reduce((sum, t) => sum + (t.points || 0), 0);
 
   if (totalPoints === 0) {
@@ -60,7 +60,7 @@ export function getCapacityGuardianRecommendation(tasks: Task[], dailyCapacity: 
   }
 
   // Risk Level 2: High Friction Combination
-  if (highFrictionPoints >= 6 && boardTasks.length > 2) {
+  if (highFrictionPoints >= 6 && activeTasks.length > 2) {
     return {
       level: 'warning',
       title: 'High Cognitive Friction Detected',
@@ -142,7 +142,7 @@ export function getRecommendedSoundscape(taskType?: string, points?: number | nu
  * Formulates smart choices for tasks remaining on the board at day end.
  */
 export function getOverflowRecommendations(tasks: Task[]): OverflowRecommendation[] {
-  const uncompleted = tasks.filter(t => t.status === 'board' && !t.completed);
+  const uncompleted = tasks.filter(t => t.status === 'today' && !t.completed);
   
   return uncompleted.map(t => {
     let action: OverflowRecommendation['action'] = 'keep';
@@ -177,8 +177,8 @@ export async function generateDailyCoachRetrospective(
   tasks: Task[], 
   settings: AppSettings
 ): Promise<string> {
-  const completedTasks = tasks.filter(t => t.status === 'board' && t.completed);
-  const uncompletedTasks = tasks.filter(t => t.status === 'board' && !t.completed);
+  const completedTasks = tasks.filter(t => t.status === 'today' && t.completed);
+  const uncompletedTasks = tasks.filter(t => t.status === 'today' && !t.completed);
   
   const completedPoints = completedTasks.reduce((sum, t) => sum + (t.points || 0), 0);
   const missedPoints = uncompletedTasks.reduce((sum, t) => sum + (t.points || 0), 0);
@@ -276,4 +276,72 @@ function generateLocalRetroFeedback(
   }
 
   return `### Steady Progress! 📈\n\n* You checked off **${completed.length} tasks** today. Even with **${uncompleted.length} tasks** rolling over, you successfully preserved your limits and kept total completed volume well within your daily ceiling.\n* Tomorrow, aim to tackle your most challenging **Must-Have** first thing in the morning when your mental bandwidth is highest.`;
+}
+
+export interface SmartCapacityRecommendation {
+  optimalCapacity: number;
+  currentLoad: number;
+  percentage: number;
+  level: 'success' | 'warning' | 'danger';
+  title: string;
+  message: string;
+}
+
+/**
+ * SMART CAPACITY ADVISOR (Velocity Planner)
+ * Calculates sustainable target capacities based on past completed velocity
+ * and provides live feedback on overload boundaries.
+ */
+export function getSmartCapacityRecommendation(
+  tasks: Task[],
+  settings: AppSettings,
+  upcomingPoints?: number | null
+): SmartCapacityRecommendation {
+  const sprints = settings.sprints || [];
+  const completedSprints = sprints.filter(s => s.completedPoints > 0);
+  
+  const dailyCapacity = settings.dailyCapacity || 8;
+  const sprintLengthDays = settings.sprintLengthDays || 7;
+  
+  // 65% of max theoretical capacity represents a healthy, sustainable sprint velocity baseline
+  const defaultOptimal = Math.round(dailyCapacity * sprintLengthDays * 0.65);
+  
+  const optimalCapacity = completedSprints.length > 0
+    ? Math.round(completedSprints.reduce((sum, s) => sum + s.completedPoints, 0) / completedSprints.length)
+    : defaultOptimal;
+    
+  // Sum up all active uncompleted tasks in the active sprint backlog
+  const activeTasks = tasks.filter(t => (t.status === 'sprint' || t.status === 'today') && !t.completed);
+  
+  const currentLoad = activeTasks.reduce((sum, t) => {
+    // Default null-point tasks to a standard medium weight (2 pts) as a baseline estimate
+    const points = t.points !== null && t.points !== undefined ? t.points : 2;
+    return sum + points;
+  }, 0);
+  
+  const previewLoad = currentLoad + (upcomingPoints !== undefined && upcomingPoints !== null ? upcomingPoints : 0);
+  const percentage = optimalCapacity > 0 ? Math.round((previewLoad / optimalCapacity) * 100) : 0;
+  
+  let level: 'success' | 'warning' | 'danger' = 'success';
+  let title = 'Healthy Capacity';
+  let message = `You are scheduled at ${previewLoad} of ${optimalCapacity} pts. Excellent buffer! You can comfortably fit more backlog tasks.`;
+  
+  if (percentage >= 80 && percentage <= 100) {
+    level = 'warning';
+    title = 'Near Target Capacity';
+    message = `You are at ${previewLoad} / ${optimalCapacity} pts (${percentage}% load). Ideal capacity reached. Keep remaining backlog tasks archived or Won't-Have to preserve focus.`;
+  } else if (percentage > 100) {
+    level = 'danger';
+    title = 'Velocity Overflow Warning';
+    message = `Sprint load is ${previewLoad} pts, exceeding your historical velocity of ${optimalCapacity} pts (${percentage}% overload). High overflow causes burnout. Defer or archive remaining items.`;
+  }
+  
+  return {
+    optimalCapacity,
+    currentLoad,
+    percentage,
+    level,
+    title,
+    message,
+  };
 }

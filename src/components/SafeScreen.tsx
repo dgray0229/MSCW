@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ScrollView, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AmbientBackground } from './ui/AmbientBackground';
 
 interface SafeScreenProps {
   children: React.ReactNode;
@@ -9,7 +10,7 @@ interface SafeScreenProps {
   scrollable?: boolean;
 }
 
-export function SafeScreen({ children, className = 'flex-1 bg-background', style, scrollable = true }: SafeScreenProps) {
+export function SafeScreen({ children, className = 'flex-1 bg-transparent', style, scrollable = true }: SafeScreenProps) {
   const insets = useSafeAreaInsets();
   
   // We apply padding top and padding bottom dynamically based on safe area insets.
@@ -22,22 +23,30 @@ export function SafeScreen({ children, className = 'flex-1 bg-background', style
     ...style,
   };
 
-  if (scrollable) {
-    return (
-      <ScrollView 
-        className={className} 
-        contentContainerStyle={containerStyle}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        {children}
-      </ScrollView>
-    );
-  }
+  // Convert solid background colors to transparent to let the dynamic orbs refract
+  const transparentClassName = className.includes('bg-background')
+    ? className.replace('bg-background', 'bg-transparent')
+    : className;
 
-  return (
-    <View className={className} style={containerStyle}>
+  const content = scrollable ? (
+    <ScrollView 
+      className={transparentClassName} 
+      contentContainerStyle={containerStyle}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
+      {children}
+    </ScrollView>
+  ) : (
+    <View className={transparentClassName} style={containerStyle}>
       {children}
     </View>
   );
+
+  return (
+    <AmbientBackground>
+      {content}
+    </AmbientBackground>
+  );
 }
+

@@ -1,0 +1,298 @@
+watchman warning:  Recrawled this watch 17 times, most recently because:
+MustScanSubDirs UserDroppedTo resolve, please review the information on
+https://facebook.github.io/watchman/docs/troubleshooting.html#recrawl
+To clear this warning, run:
+`watchman watch-del '/Users/devingray/Projects/MSCW' ; watchman watch-project '/Users/devingray/Projects/MSCW'`
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      163 |
+      164 |   it('verifies Swipe Right (Left-to-Right) on Daily Board toggles task completion', () => {
+    > 165 |     const component = TestRenderer.create(<BoardPage />);
+          |                                    ^
+      166 |     const gestureHandlers = component.root.findAllByProps({ testID: 'PanGestureHandler' });
+      167 |     
+      168 |     // Assert we found the Daily Action task gesture wrapper
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/taskGestureSwipe.test.tsx:165:36)
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      195 |
+      196 |   it('verifies Swipe Left (Right-to-Left) on Daily Board archives the task', () => {
+    > 197 |     const component = TestRenderer.create(<BoardPage />);
+          |                                    ^
+      198 |     const gestureHandlers = component.root.findAllByProps({ testID: 'PanGestureHandler' });
+      199 |     
+      200 |     const firstHandler = gestureHandlers[0];
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/taskGestureSwipe.test.tsx:197:36)
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      215 |
+      216 |   it('verifies Swipe Right (Left-to-Right) on Backlog graduates task to Board', () => {
+    > 217 |     const component = TestRenderer.create(<BacklogPage />);
+          |                                    ^
+      218 |     const gestureHandlers = component.root.findAllByProps({ testID: 'PanGestureHandler' });
+      219 |     
+      220 |     // Assert we found the Backlog Graduation task gesture wrapper
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/taskGestureSwipe.test.tsx:217:36)
+
+  console.error
+    An update to Root inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      239 |
+      240 |   it('verifies Swipe Left (Right-to-Left) on Backlog deletes the task completely', () => {
+    > 241 |     const component = TestRenderer.create(<BacklogPage />);
+          |                                    ^
+      242 |     const gestureHandlers = component.root.findAllByProps({ testID: 'PanGestureHandler' });
+      243 |     
+      244 |     const backlogHandler = gestureHandlers[0];
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at updateContainerImpl (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14984:9)
+      at updateContainer (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14927:7)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.create (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17369:7)
+      at Object.create (src/__tests__/taskGestureSwipe.test.tsx:241:36)
+
+
+ReferenceError: You are trying to `import` a file after the Jest environment has been torn down. From src/__tests__/taskGestureSwipe.test.tsx.
+
+
+
+      at Object.get useColorScheme [as useColorScheme] (node_modules/react-native/index.js:262:12)
+      at Object.get [as useColorScheme] (src/hooks/use-color-scheme.ts:7:25)
+      at useAccentTheme (src/hooks/useAccentTheme.ts:87:41)
+      at BoardPage (src/app/index.tsx:401:50)
+      at Object.react_stack_bottom_frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15670:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4863:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7018:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:8499:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13224:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13068:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13049:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12181:11)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+  console.warn
+    An error occurred in the <BoardPage> component.
+    
+    Consider adding an error boundary to your tree to customize error handling behavior.
+    Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+      at defaultOnUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6400:15)
+      at logUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6460:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at lane.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6490:9)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10103:15)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at commitRootWhenReady (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12444:7)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12391:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+
+FAIL src/__tests__/taskGestureSwipe.test.tsx
+  Premium Kanban Swipe-to-Action Gestures
+    ✕ verifies Swipe Right (Left-to-Right) on Daily Board toggles task completion (22 ms)
+    ✕ verifies Swipe Left (Right-to-Left) on Daily Board archives the task (2 ms)
+    ✕ verifies Swipe Right (Left-to-Right) on Backlog graduates task to Board (2 ms)
+    ✕ verifies Swipe Left (Right-to-Left) on Backlog deletes the task completely (2 ms)
+
+  ● Premium Kanban Swipe-to-Action Gestures › verifies Swipe Right (Left-to-Right) on Daily Board toggles task completion
+
+    Can't access .root on unmounted test renderer
+
+      164 |   it('verifies Swipe Right (Left-to-Right) on Daily Board toggles task completion', () => {
+      165 |     const component = TestRenderer.create(<BoardPage />);
+    > 166 |     const gestureHandlers = component.root.findAllByProps({ testID: 'PanGestureHandler' });
+          |                                       ^
+      167 |     
+      168 |     // Assert we found the Daily Action task gesture wrapper
+      169 |     expect(gestureHandlers.length).toBeGreaterThanOrEqual(1);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at Object.root (src/__tests__/taskGestureSwipe.test.tsx:166:39)
+
+  ● Premium Kanban Swipe-to-Action Gestures › verifies Swipe Left (Right-to-Left) on Daily Board archives the task
+
+    Can't access .root on unmounted test renderer
+
+      196 |   it('verifies Swipe Left (Right-to-Left) on Daily Board archives the task', () => {
+      197 |     const component = TestRenderer.create(<BoardPage />);
+    > 198 |     const gestureHandlers = component.root.findAllByProps({ testID: 'PanGestureHandler' });
+          |                                       ^
+      199 |     
+      200 |     const firstHandler = gestureHandlers[0];
+      201 |     const triggerGesture = firstHandler.props.onGestureEvent;
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at Object.root (src/__tests__/taskGestureSwipe.test.tsx:198:39)
+
+  ● Premium Kanban Swipe-to-Action Gestures › verifies Swipe Right (Left-to-Right) on Backlog graduates task to Board
+
+    Can't access .root on unmounted test renderer
+
+      216 |   it('verifies Swipe Right (Left-to-Right) on Backlog graduates task to Board', () => {
+      217 |     const component = TestRenderer.create(<BacklogPage />);
+    > 218 |     const gestureHandlers = component.root.findAllByProps({ testID: 'PanGestureHandler' });
+          |                                       ^
+      219 |     
+      220 |     // Assert we found the Backlog Graduation task gesture wrapper
+      221 |     expect(gestureHandlers.length).toBeGreaterThanOrEqual(1);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at Object.root (src/__tests__/taskGestureSwipe.test.tsx:218:39)
+
+  ● Premium Kanban Swipe-to-Action Gestures › verifies Swipe Left (Right-to-Left) on Backlog deletes the task completely
+
+    Can't access .root on unmounted test renderer
+
+      240 |   it('verifies Swipe Left (Right-to-Left) on Backlog deletes the task completely', () => {
+      241 |     const component = TestRenderer.create(<BacklogPage />);
+    > 242 |     const gestureHandlers = component.root.findAllByProps({ testID: 'PanGestureHandler' });
+          |                                       ^
+      243 |     
+      244 |     const backlogHandler = gestureHandlers[0];
+      245 |     const triggerGesture = backlogHandler.props.onGestureEvent;
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at Object.root (src/__tests__/taskGestureSwipe.test.tsx:242:39)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 4 total
+Snapshots:   0 total
+Time:        0.991 s, estimated 3 s
+Ran all test suites matching /src\/__tests__\/taskGestureSwipe.test.tsx/i.
+  console.warn
+    An error occurred in the <BoardPage> component.
+    
+    Consider adding an error boundary to your tree to customize error handling behavior.
+    Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+      at defaultOnUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6400:15)
+      at logUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6460:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at lane.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6490:9)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10103:15)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at commitRootWhenReady (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12444:7)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12391:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+
+  console.warn
+    An error occurred in the <BacklogPage> component.
+    
+    Consider adding an error boundary to your tree to customize error handling behavior.
+    Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+      at defaultOnUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6400:15)
+      at logUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6460:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at lane.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6490:9)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10103:15)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at commitRootWhenReady (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12444:7)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12391:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+
+  console.warn
+    An error occurred in the <BacklogPage> component.
+    
+    Consider adding an error boundary to your tree to customize error handling behavior.
+    Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+
+      at defaultOnUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6400:15)
+      at logUncaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6460:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at lane.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6490:9)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10103:15)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at commitRootWhenReady (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12444:7)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12391:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at Immediate.performWorkUntilDeadline [as _onImmediate] (node_modules/scheduler/cjs/scheduler.native.development.js:45:48)
+

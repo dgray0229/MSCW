@@ -10,6 +10,7 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
       _hasHydrated: true,
       tasks: [],
       settings: {
+        isPremium: false,
         dailyCapacity: 8,
         zenDuration: 25,
         hapticsEnabled: true,
@@ -20,6 +21,9 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
         hasSeenOnboarding: false,
         currentStreakDays: 0,
         longestStreakDays: 0,
+        sprintNumber: 1,
+        sprintStartDate: new Date().toISOString(),
+        sprintLengthDays: 7,
       },
     });
   });
@@ -41,13 +45,13 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
     // Simulate triage action to MUST
     addedState.updateTask(task.id, {
       priority: 'must',
-      status: 'board',
+      status: 'sprint',
     });
 
     const triagedState = useAppStore.getState();
     const triagedTask = triagedState.tasks[0];
     expect(triagedTask.priority).toBe('must');
-    expect(triagedTask.status).toBe('board');
+    expect(triagedTask.status).toBe('sprint');
   });
 
   it('should automatically archive triaged WON\'T tasks if autoArchiveWontTasks is true', () => {
@@ -67,7 +71,7 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
     expect(settings.autoArchiveWontTasks).toBe(true);
 
     // Perform WON'T triage transition
-    const nextStatus = settings.autoArchiveWontTasks ? 'archive' : 'board';
+    const nextStatus = settings.autoArchiveWontTasks ? 'archive' : 'sprint';
     addedState.updateTask(task.id, {
       priority: 'wont',
       status: nextStatus,
@@ -83,6 +87,7 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
     // Toggle autoArchiveWontTasks to false
     useAppStore.setState({
       settings: {
+        isPremium: false,
         dailyCapacity: 8,
         zenDuration: 25,
         hapticsEnabled: true,
@@ -93,6 +98,9 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
         hasSeenOnboarding: false,
         currentStreakDays: 0,
         longestStreakDays: 0,
+        sprintNumber: 1,
+        sprintStartDate: new Date().toISOString(),
+        sprintLengthDays: 7,
       }
     });
 
@@ -107,7 +115,7 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
     const task = nextState.tasks[0];
     const settings = nextState.settings;
 
-    const nextStatus = settings.autoArchiveWontTasks ? 'archive' : 'board';
+    const nextStatus = settings.autoArchiveWontTasks ? 'archive' : 'sprint';
     nextState.updateTask(task.id, {
       priority: 'wont',
       status: nextStatus,
@@ -116,18 +124,18 @@ describe('MSCW Triage and Capacity Constraint Tests', () => {
     const triagedState = useAppStore.getState();
     const triagedTask = triagedState.tasks[0];
     expect(triagedTask.priority).toBe('wont');
-    expect(triagedTask.status).toBe('board'); // Placed on Board instead!
+    expect(triagedTask.status).toBe('sprint'); // Placed on Sprint instead!
   });
 
   it('should flag burnout risk if scheduled board points exceed capacity limit', () => {
     const store = useAppStore.getState();
     
     // Add two tasks totaling 10 points (which exceeds default daily capacity of 8)
-    store.addTask({ title: 'Task A', points: 5, status: 'board', priority: 'must' });
-    store.addTask({ title: 'Task B', points: 5, status: 'board', priority: 'should' });
+    store.addTask({ title: 'Task A', points: 5, status: 'today', priority: 'must' });
+    store.addTask({ title: 'Task B', points: 5, status: 'today', priority: 'should' });
 
     const state = useAppStore.getState();
-    const boardTasks = state.tasks.filter(t => t.status === 'board');
+    const boardTasks = state.tasks.filter(t => t.status === 'today');
     const totalPoints = boardTasks.reduce((sum, t) => sum + (t.points || 0), 0);
     const capacityLimit = state.settings.dailyCapacity;
 
